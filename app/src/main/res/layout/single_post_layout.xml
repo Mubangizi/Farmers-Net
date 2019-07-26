@@ -43,7 +43,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/post_rec_textView"
+                android:id="@+id/post_rec_title_textView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -73,7 +73,7 @@
                 android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/post_rec_textView"
+                app:layout_constraintTop_toBottomOf="@+id/post_rec_title_textView"
                 app:srcCompat="@drawable/rectangle" />
 
             <TextView
@@ -83,50 +83,110 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
+                android:background="@drawable/input_area"
                 android:text="@string/article"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/post_rec_imageView" />
 
-            <View
-                android:id="@+id/view1"
+            <ImageView
+                android:id="@+id/post_rec_like_icon"
                 android:layout_width="0dp"
-                android:layout_height="70dp"
-                android:layout_marginStart="8dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toStartOf="@+id/view2"
+                app:layout_constraintEnd_toStartOf="@+id/post_rec_comment_icon"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/post_rec_article_textView" />
+                app:layout_constraintTop_toBottomOf="@+id/post_rec_article_textView"
+                app:srcCompat="@mipmap/ic_like_icon" />
 
-            <View
-                android:id="@+id/view2"
+            <TextView
+                android:id="@+id/post_rec_like_textView"
                 android:layout_width="0dp"
-                android:layout_height="70dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/like"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toStartOf="@+id/post_rec_comment_textView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/post_rec_like_icon" />
+
+            <ImageView
+                android:id="@+id/post_rec_comment_icon"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/post_rec_advise_icon"
+                app:layout_constraintStart_toEndOf="@+id/post_rec_like_icon"
+                app:layout_constraintTop_toBottomOf="@+id/post_rec_article_textView"
+                app:srcCompat="@mipmap/ic_comment_icon" />
+
+            <TextView
+                android:id="@+id/post_rec_comment_textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toStartOf="@+id/view3"
-                app:layout_constraintStart_toEndOf="@+id/view1"
-                app:layout_constraintTop_toBottomOf="@+id/post_rec_article_textView" />
+                android:text="@string/comment"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toStartOf="@+id/post_rec_advise_textView"
+                app:layout_constraintStart_toEndOf="@+id/post_rec_like_textView"
+                app:layout_constraintTop_toBottomOf="@+id/post_rec_comment_icon" />
 
-            <View
-                android:id="@+id/view3"
+            <ImageView
+                android:id="@+id/post_rec_share_icon"
                 android:layout_width="0dp"
-                android:layout_height="70dp"
+                android:layout_height="40dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toStartOf="@+id/view4"
-                app:layout_constraintStart_toEndOf="@+id/view2"
-                app:layout_constraintTop_toBottomOf="@+id/post_rec_article_textView" />
-
-            <View
-                android:id="@+id/view4"
-                android:layout_width="0dp"
-                android:layout_height="70dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/view3"
-                app:layout_constraintTop_toBottomOf="@+id/post_rec_article_textView" />
+                app:layout_constraintStart_toEndOf="@+id/post_rec_advise_icon"
+                app:layout_constraintTop_toBottomOf="@+id/post_rec_article_textView"
+                app:srcCompat="@mipmap/ic_share_icon" />
+
+            <TextView
+                android:id="@+id/post_rec_share_textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/share"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/post_rec_advise_textView"
+                app:layout_constraintTop_toBottomOf="@+id/post_rec_share_icon" />
+
+            <ImageView
+                android:id="@+id/post_rec_advise_icon"
+                android:layout_width="0dp"
+                android:layout_height="39dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/post_rec_share_icon"
+                app:layout_constraintStart_toEndOf="@+id/post_rec_comment_icon"
+                app:layout_constraintTop_toBottomOf="@+id/post_rec_article_textView"
+                app:srcCompat="@drawable/ic_outline_school_24px" />
+
+            <TextView
+                android:id="@+id/post_rec_advise_textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="9dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/advise"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toStartOf="@+id/post_rec_share_textView"
+                app:layout_constraintStart_toEndOf="@+id/post_rec_comment_textView"
+                app:layout_constraintTop_toBottomOf="@+id/post_rec_advise_icon" />
+
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
