@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">FarmersNet</string>
+    <string name="username">Username</string>
+    <string name="title">Title</string>
+    <string name="addimage">Add Image</string>
+    <string name="article">Article</string>
+    <string name="post">Post</string>
+    <string name="create_post">Create Post</string>
+    <string name="settings">Settings</string>
+    <string name="logout">Logout</string>
+    <string name="time">time</string>
+</resources>

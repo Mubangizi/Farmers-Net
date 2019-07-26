@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1041091990218",
+    "firebase_url": "https://farmersnet-2ab92.firebaseio.com",
+    "project_id": "farmersnet-2ab92",
+    "storage_bucket": "farmersnet-2ab92.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1041091990218:android:b402bceb6d162bb8",
+        "android_client_info": {
+          "package_name": "com.example.farmersnet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1041091990218-5tg7g4s0r52mmunl4204da0mit36eje5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.farmersnet",
+            "certificate_hash": "62c1c0e6fdba3d4a2a8b1496966b4494b3550fcb"
+          }
+        },
+        {
+          "client_id": "1041091990218-jtpg0k4jq3t7g36nggt66moegqfsvkvf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKW0RB2h4s-2PaH3KSkckCsTBMHtO6674"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1041091990218-jtpg0k4jq3t7g36nggt66moegqfsvkvf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
