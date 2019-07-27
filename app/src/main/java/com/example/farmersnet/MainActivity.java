@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.farmersnet.post.Post;
+import com.example.farmersnet.post.PostRecyclerAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView postRecyclerView;
     private ArrayList<Post> posts;
     private TextView titletextview;
+    private RecyclerView mainRecyclerView;
 
     private FirebaseFirestore firebaseFirestore;
     private CollectionReference collectionReference;
@@ -45,17 +48,26 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUtil.openFireBaseReference("Posts");
         firebaseFirestore = FirebaseUtil.firebaseFirestore;
         collectionReference = FirebaseUtil.collectionReference;
+        mainRecyclerView = findViewById(R.id.main_recylerView);
+        PostRecyclerAdapter postRecyclerAdapter = new PostRecyclerAdapter();
+
+        setAdapter();
 
 
-        collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                for (DocumentSnapshot documentSnapshot : task.getResult().getDocuments()){
-                    Post post = documentSnapshot.toObject(Post.class);
-                    titletextview.setText(post.getTitle());
-                }
-            }
-        });
+    }
+
+    private void setAdapter() {
+        PostRecyclerAdapter postRecyclerAdapter = new PostRecyclerAdapter();
+        mainRecyclerView.setAdapter(postRecyclerAdapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+        mainRecyclerView.setLayoutManager(linearLayoutManager);
+        mainRecyclerView.setAdapter(postRecyclerAdapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setAdapter();
 
     }
 
