@@ -26,6 +26,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -49,6 +50,7 @@ public class CreatePostActivity extends AppCompatActivity {
     private FirebaseFirestore firebaseFirestore;
     private StorageReference storageReference;
     private Uri postImageUri =null;
+    private CollectionReference collectionReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +62,9 @@ public class CreatePostActivity extends AppCompatActivity {
         postBtn = findViewById(R.id.post_button);
         addImageTextView = findViewById(R.id.addimage_textView);
         postImageView = findViewById(R.id.post_imageView);
-        firebaseFirestore = FirebaseFirestore.getInstance();
+        FirebaseUtil.openFireBaseReference("Posts");
+        firebaseFirestore = FirebaseUtil.firebaseFirestore;
+        collectionReference = FirebaseUtil.collectionReference;
         storageReference  = FirebaseStorage.getInstance().getReference();
 
         getSupportActionBar().setTitle("Create Post");
@@ -132,7 +136,7 @@ public class CreatePostActivity extends AppCompatActivity {
     }
 
     private void postdata(Map<String, Object> postMap){
-        firebaseFirestore.collection("Posts")
+        collectionReference
                 .add(postMap)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
