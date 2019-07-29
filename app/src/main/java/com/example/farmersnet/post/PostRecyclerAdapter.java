@@ -11,22 +11,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.farmersnet.FirebaseUtil;
+import com.example.farmersnet.utils.FirebaseUtil;
 import com.example.farmersnet.PostActivity;
 import com.example.farmersnet.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.example.farmersnet.utils.MyTimeUtil;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-
-import javax.annotation.Nullable;
+import java.util.Date;
 
 public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapter.PostViewHolder> {
 
@@ -97,11 +90,13 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
     public class PostViewHolder extends RecyclerView.ViewHolder{
         private TextView titleTextView;
         private TextView articleTextView;
+        private TextView dateTextView;
         private ImageView postImageView;
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.post_rec_title_textView);
             articleTextView = itemView.findViewById(R.id.post_rec_article_textView);
+            dateTextView = itemView.findViewById(R.id.post_rec_time_textView);
             postImageView = itemView.findViewById(R.id.post_rec_imageView);
 
         }
@@ -115,6 +110,17 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
             }else
                 Glide.with(context).load(imageValue).into(postImageView);
 
+            //POST DATE
+            Date timestamp = post.getTimestamp();
+            if(timestamp != null){
+                Long milliseconds = timestamp.getTime();
+                String timeplace = MyTimeUtil.telltime(milliseconds);
+                dateTextView.setText(timeplace);
+            }else {
+                dateTextView.setText(null);
+            }
+
         }
+
     }
 }

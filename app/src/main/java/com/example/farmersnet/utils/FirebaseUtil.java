@@ -1,4 +1,4 @@
-package com.example.farmersnet;
+package com.example.farmersnet.utils;
 
 import com.example.farmersnet.post.Post;
 import com.google.firebase.firestore.CollectionReference;

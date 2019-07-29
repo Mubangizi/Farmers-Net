@@ -8,29 +8,19 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.PointerIcon;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.farmersnet.post.Post;
 import com.example.farmersnet.post.PostRecyclerAdapter;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.example.farmersnet.utils.FirebaseUtil;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.AbstractSequentialList;
 import java.util.ArrayList;
-
-import javax.annotation.Nullable;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView postRecyclerView;
