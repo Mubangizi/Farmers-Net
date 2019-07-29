@@ -1,8 +1,28 @@
 package com.example.farmersnet.post;
 
-public class Post {
-    String title;
-    String article;
+import java.util.Date;
+
+public class Post extends PostID {
+    private String title;
+    private String article;
+    private String image;
+    private Date timestamp;
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     public String getTitle() {
         return title;

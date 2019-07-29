@@ -27,6 +27,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.AbstractSequentialList;
 import java.util.ArrayList;
 
 import javax.annotation.Nullable;
@@ -36,28 +37,28 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Post> posts;
     private TextView titletextview;
     private RecyclerView mainRecyclerView;
-
+    private PostRecyclerAdapter postRecyclerAdapter;
     private FirebaseFirestore firebaseFirestore;
     private CollectionReference collectionReference;
+    private ArrayList<Post> postList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         titletextview = findViewById(R.id.title_textView);
-        //postRecyclerView = findViewById(R.id.main_recyclerView);
         FirebaseUtil.openFireBaseReference("Posts");
         firebaseFirestore = FirebaseUtil.firebaseFirestore;
         collectionReference = FirebaseUtil.collectionReference;
         mainRecyclerView = findViewById(R.id.main_recylerView);
-        PostRecyclerAdapter postRecyclerAdapter = new PostRecyclerAdapter();
-
+        postList = FirebaseUtil.postArrayList;
+        getposts();
+        postRecyclerAdapter = new PostRecyclerAdapter(postList);
         setAdapter();
-
 
     }
 
     private void setAdapter() {
-        PostRecyclerAdapter postRecyclerAdapter = new PostRecyclerAdapter();
         mainRecyclerView.setAdapter(postRecyclerAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         mainRecyclerView.setLayoutManager(linearLayoutManager);
@@ -76,6 +77,25 @@ public class MainActivity extends AppCompatActivity {
         startActivity(createIntent);
     }
 
+    public void getposts(){
+        collectionReference.orderBy("timestamp").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@javax.annotation.Nullable QuerySnapshot queryDocumentSnapshots, @javax.annotation.Nullable FirebaseFirestoreException e) {
+
+                if (!queryDocumentSnapshots.isEmpty()) {
+                    for (@NonNull DocumentChange doc : queryDocumentSnapshots.getDocumentChanges()) {
+
+                        if(doc.getType()== DocumentChange.Type.ADDED){
+                            String postId = doc.getDocument().getId();
+                            Post post = doc.getDocument().toObject(Post.class).withId(postId);
+                            postList.add(post);
+                            postRecyclerAdapter.notifyDataSetChanged();
+                        }
+                    }
+                }
+            }
+        });
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);

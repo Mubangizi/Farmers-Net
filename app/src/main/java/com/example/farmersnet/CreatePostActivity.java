@@ -136,6 +136,7 @@ public class CreatePostActivity extends AppCompatActivity {
     }
 
     private void postdata(Map<String, Object> postMap){
+        postBtn.setEnabled(false);
         collectionReference
                 .add(postMap)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -149,6 +150,7 @@ public class CreatePostActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        postBtn.setEnabled(true);
                         Log.w(TAG, "Error adding document", e);
                     }
                 });
