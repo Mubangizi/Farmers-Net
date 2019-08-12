@@ -13,4 +13,7 @@
     <string name="comment">Comments</string>
     <string name="advise">Advise</string>
     <string name="share">Share</string>
+    <string name="home">Home</string>
+    <string name="chartroom">Chart Room</string>
+    <string name="account">Account</string>
 </resources>
