@@ -2,6 +2,8 @@ package com.example.farmersnet;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +12,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.example.farmersnet.fragments.AccountFragment;
+import com.example.farmersnet.fragments.ChartRoomFragment;
+import com.example.farmersnet.fragments.CreatePostFragment;
+import com.example.farmersnet.fragments.HomeFragment;
 import com.example.farmersnet.post.Post;
 import com.example.farmersnet.post.PostRecyclerAdapter;
 import com.example.farmersnet.utils.FirebaseUtil;
@@ -22,7 +28,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     private RecyclerView postRecyclerView;
     private ArrayList<Post> posts;
     private TextView titletextview;
@@ -31,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseFirestore firebaseFirestore;
     private CollectionReference collectionReference;
     private ArrayList<Post> postList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
         getposts();
         postRecyclerAdapter = new PostRecyclerAdapter(postList);
         setAdapter();
+
+        BottomNavigationView navigationView = findViewById(R.id.bottomNavView);
+        navigationView.setOnNavigationItemSelectedListener(this);
+        loadFragment(new HomeFragment());
 
     }
 
@@ -104,4 +115,41 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        Fragment fragment = null;
+        switch (menuItem.getItemId()){
+            case R.id.frag_item_home:
+                fragment = new HomeFragment();
+                break;
+            case R.id.frag_item_account:
+                fragment = new AccountFragment();
+                break;
+            case R.id.frag_item_createPost:
+                fragment = new CreatePostFragment();
+                break;
+            case R.id.frag_item_chartRoom:
+                fragment = new ChartRoomFragment();
+                break;
+
+
+        }
+        return loadFragment(fragment);
+    }
+
+    private boolean loadFragment(Fragment fragment){
+        if(fragment != null){
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.main_frameLayout, fragment)
+                    .commit();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
 }
