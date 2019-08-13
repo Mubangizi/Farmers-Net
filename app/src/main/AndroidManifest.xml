@@ -15,9 +15,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".PostActivity"
-            android:parentActivityName=".MainActivity" >
-        </activity>
-        <activity android:name=".CreatePostActivity" />
+            android:parentActivityName=".MainActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

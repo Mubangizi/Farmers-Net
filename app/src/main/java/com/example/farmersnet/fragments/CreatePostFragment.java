@@ -22,7 +22,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.farmersnet.CreatePostActivity;
 import com.example.farmersnet.MainActivity;
 import com.example.farmersnet.R;
 import com.example.farmersnet.utils.FirebaseUtil;
@@ -70,7 +69,7 @@ public class CreatePostFragment extends Fragment {
         postBtn = view.findViewById(R.id.post_button);
         addImageTextView = view.findViewById(R.id.addimage_textView);
         postImageView = view.findViewById(R.id.post_imageView);
-        FirebaseUtil.openFireBaseReference("Posts");
+        FirebaseUtil.openFireBaseReference("Posts", getActivity());
         firebaseFirestore = FirebaseUtil.firebaseFirestore;
         collectionReference = FirebaseUtil.collectionReference;
         storageReference  = FirebaseStorage.getInstance().getReference();

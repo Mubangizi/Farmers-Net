@@ -29,7 +29,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
     Context context;
 
     public PostRecyclerAdapter(){
-        FirebaseUtil.openFireBaseReference("Posts");
+        //FirebaseUtil.openFireBaseReference("Posts");
         firebaseFirestore = FirebaseUtil.firebaseFirestore;
         collectionReference = FirebaseUtil.collectionReference;
         postArrayList = FirebaseUtil.postArrayList;
@@ -38,7 +38,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
 
     public PostRecyclerAdapter(ArrayList<Post> postArrayList){
 
-        FirebaseUtil.openFireBaseReference("Posts");
+        //FirebaseUtil.openFireBaseReference("Posts");
         firebaseFirestore = FirebaseUtil.firebaseFirestore;
         collectionReference = FirebaseUtil.collectionReference;
         this.postArrayList = postArrayList;

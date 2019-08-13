@@ -46,7 +46,7 @@ public class PostActivity extends AppCompatActivity {
         postImageView = findViewById(R.id.post_rec_imageView);
         dateTextView = findViewById(R.id.post_rec_time_textView);
 
-        FirebaseUtil.openFireBaseReference("Posts");
+        FirebaseUtil.openFireBaseReference("Posts", this);
         firebaseFirestore = FirebaseUtil.firebaseFirestore;
         collectionReference = FirebaseUtil.collectionReference;
         postList = FirebaseUtil.postArrayList;

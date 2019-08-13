@@ -45,15 +45,16 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        FirebaseUtil.openFireBaseReference("Posts");
+        FirebaseUtil.openFireBaseReference("Posts", getActivity());
         firebaseFirestore = FirebaseUtil.firebaseFirestore;
         collectionReference = FirebaseUtil.collectionReference;
         getposts();
         homeRecyclerView = view.findViewById(R.id.home_recyclerView);
-        postArrayList = new ArrayList<>();
+        postArrayList = FirebaseUtil.postArrayList;
         postRecyclerAdapter = new PostRecyclerAdapter(postArrayList);
-        homeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        homeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL, false));
         homeRecyclerView.setAdapter(postRecyclerAdapter);
+        FirebaseUtil.attachListener();
         return view;
     }
 
@@ -74,6 +75,12 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        FirebaseUtil.detachListener();
     }
 
 }
