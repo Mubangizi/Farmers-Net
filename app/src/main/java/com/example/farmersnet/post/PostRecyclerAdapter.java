@@ -29,7 +29,6 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
     Context context;
 
     public PostRecyclerAdapter(){
-
         FirebaseUtil.openFireBaseReference("Posts");
         firebaseFirestore = FirebaseUtil.firebaseFirestore;
         collectionReference = FirebaseUtil.collectionReference;
