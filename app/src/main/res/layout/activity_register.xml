@@ -26,14 +26,10 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/reg_logo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="107dp"
-                android:layout_marginLeft="107dp"
+                android:id="@+id/reg_profile_image"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="108dp"
-                android:layout_marginRight="108dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -48,7 +44,7 @@
                 android:text="@string/fname"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/reg_logo" />
+                app:layout_constraintTop_toBottomOf="@+id/reg_upload_TextView" />
 
             <EditText
                 android:id="@+id/reg_fname"
@@ -238,6 +234,19 @@
                 app:layout_constraintHorizontal_bias="0.6"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/reg_interest_hint" />
+
+            <TextView
+                android:id="@+id/reg_upload_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/uploadImage"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/reg_profile_image" />
 
 
         </android.support.constraint.ConstraintLayout>

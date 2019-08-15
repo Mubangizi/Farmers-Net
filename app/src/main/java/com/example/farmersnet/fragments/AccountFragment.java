@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.farmersnet.R;
 import com.example.farmersnet.RegisterActivity;
 import com.example.farmersnet.post.Post;
@@ -35,6 +36,7 @@ public class AccountFragment extends Fragment {
     private TextView emailTextView;
     private TextView dobTextView;
     private ImageView editIcon;
+    private ImageView userImageView;
 
     private CollectionReference collectionReference;
     private FirebaseAuth mAuth;
@@ -51,6 +53,7 @@ public class AccountFragment extends Fragment {
         contentAboutTextView = view.findViewById(R.id.profile_about_content);
         dobTextView = view.findViewById(R.id.profile_dob);
         editIcon = view.findViewById(R.id.profile_edit_icon);
+        userImageView = view.findViewById(R.id.profile_userimageView);
 
         FirebaseUtil.openFireBaseReference("Users", getActivity());
         collectionReference = FirebaseUtil.collectionReference;
@@ -67,12 +70,14 @@ public class AccountFragment extends Fragment {
                         String interest = task.getResult().getString("interests");
                         String dob = task.getResult().getString("dob");
                         String email = task.getResult().getString("email");
+                        String downloadUri = task.getResult().getString("profile_image");
                         userNameTextView.setText(fname + " " + lname );
                         aboutTextView.setText(about);
                         interestTextView.setText(interest);
                         dobTextView.setText(dob);
                         emailTextView.setText(email);
                         contentAboutTextView.setText(about);
+                        Glide.with(getContext()).load(downloadUri).into(userImageView);
                 }else {
                     FirebaseUtil.attachListener();
                 }
