@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">FarmersNet</string>
     <string name="username">Username</string>
+    <string name="fname">First Name</string>
+    <string name="lname">Last Name</string>
     <string name="title">Title</string>
     <string name="addimage">Add Image</string>
     <string name="article">Article</string>
@@ -18,5 +20,16 @@
     <string name="account">Account</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="personalInfor">Personal Information</string>
+    <string name="locatedin">Located In:</string>
+    <string name="location">location</string>
+    <string name="dateofbirth">Date Of Birth</string>
+    <string name="date">Date</string>
+    <string name="about">About</string>
+    <string name="contactinfor">Contact Info</string>
+    <string name="email">Email</string>
+    <string name="phoneNumber">Phone Number</string>
+    <string name="interests">Interests</string>
+    <string name="number">+256</string>
+    <string name="register">Register</string>
 </resources>
