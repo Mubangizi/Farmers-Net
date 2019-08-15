@@ -42,6 +42,7 @@ public class FirebaseUtil {
     public static FirebaseUtil firebaseUtil;
     public static CollectionReference collectionReference;
     private static int RC_SIGN_IN =131;
+    public static String user_id;
 
     //to prevent instantiation
     private FirebaseUtil(){}
@@ -63,6 +64,7 @@ public class FirebaseUtil {
             postArrayList = new ArrayList<Post>();
         }
         collectionReference = firebaseFirestore.collection(ref);
+        user_id = mAuth.getCurrentUser().getUid();
     }
 
     private static void signIn() {
@@ -100,10 +102,10 @@ public class FirebaseUtil {
                     firebaseFirestore.collection("Users").document(userid).get().addOnCompleteListener(caller, new OnCompleteListener<DocumentSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if(!task.getResult().exists()){
-                                Intent intent = new Intent(caller, RegisterActivity.class);
-                                caller.startActivity(intent);
-                            }
+                        if(!task.getResult().exists()){
+                            Intent intent = new Intent(caller, RegisterActivity.class);
+                            caller.startActivity(intent);
+                        }
                         }
                     });
 
@@ -126,4 +128,5 @@ public class FirebaseUtil {
             }
 
     }
+
 }

@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -70,6 +71,26 @@ public class RegisterActivity extends AppCompatActivity {
         }
         dialog = builder.create();
 
+        collectionReference.document(user_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.getResult().exists()) {
+                    String fname = task.getResult().getString("fname");
+                    String lname = task.getResult().getString("lname");
+                    String about = task.getResult().getString("about");
+                    String interest = task.getResult().getString("interests");
+                    String dob = task.getResult().getString("dob");
+                    String email = task.getResult().getString("email");
+                    regFirstNameText.setText(fname);
+                    regLastNameText.setText(lname);
+                    regAboutText.setText(about);
+                    regInterestsText.setText(interest);
+                    regDOBText.setText(dob);
+                    regEmailText.setText(email);
+                }
+            }
+        });
+
         regButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,8 +103,8 @@ public class RegisterActivity extends AppCompatActivity {
 
 
                 if(!TextUtils.isEmpty(fname) && !TextUtils.isEmpty(lname) && !TextUtils.isEmpty(email)){
-                        dialog.show();
-                        saveUserinfo(fname, lname, email, dob, about, interest);
+                    dialog.show();
+                    saveUserinfo(fname, lname, email, dob, about, interest);
                 }else{
                     Toast.makeText(RegisterActivity.this, "Please fill in all the required fields", Toast.LENGTH_SHORT).show();
                 }

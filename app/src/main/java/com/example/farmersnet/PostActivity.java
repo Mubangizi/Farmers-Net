@@ -73,9 +73,6 @@ public class PostActivity extends AppCompatActivity {
                     postImageView.setVisibility(View.GONE);
                 }else
                     postImageView.setAdjustViewBounds(true);
-                //TODO: change image height to wrap content
-                    //postImageView.getLayoutParams();
-                    //postImageView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                     Glide.with(PostActivity.this).load(image_uri).into(postImageView);
 
             }
