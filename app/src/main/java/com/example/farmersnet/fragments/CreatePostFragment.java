@@ -22,7 +22,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.farmersnet.CreatePostActivity;
 import com.example.farmersnet.MainActivity;
 import com.example.farmersnet.R;
 import com.example.farmersnet.utils.FirebaseUtil;
@@ -59,6 +58,7 @@ public class CreatePostFragment extends Fragment {
     private StorageReference storageReference;
     private Uri postImageUri =null;
     private CollectionReference collectionReference;
+    private String user_id;
 
     @Nullable
     @Override
@@ -70,10 +70,11 @@ public class CreatePostFragment extends Fragment {
         postBtn = view.findViewById(R.id.post_button);
         addImageTextView = view.findViewById(R.id.addimage_textView);
         postImageView = view.findViewById(R.id.post_imageView);
-        FirebaseUtil.openFireBaseReference("Posts");
+        FirebaseUtil.openFireBaseReference("Posts", getActivity());
         firebaseFirestore = FirebaseUtil.firebaseFirestore;
         collectionReference = FirebaseUtil.collectionReference;
         storageReference  = FirebaseStorage.getInstance().getReference();
+        user_id = FirebaseUtil.mAuth.getCurrentUser().getUid();
 
         //getContext().getSupportActionBar().setTitle("Create Post");
 
@@ -97,14 +98,9 @@ public class CreatePostFragment extends Fragment {
         postBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String title_data = titleEditText.getText().toString();
-                String article_data = articleEditText.getText().toString();
+                final String title_data = titleEditText.getText().toString();
+                final String article_data = articleEditText.getText().toString();
                 if(!TextUtils.isEmpty( title_data) && !TextUtils.isEmpty(article_data) ){
-
-                    final Map<String, Object> postMap = new HashMap<>();
-                    postMap.put("title", title_data);
-                    postMap.put("article", article_data);
-                    postMap.put("timestamp", FieldValue.serverTimestamp());
 
                     if (postImageUri != null){
                         String randomName = UUID.randomUUID().toString();
@@ -124,12 +120,11 @@ public class CreatePostFragment extends Fragment {
                             @Override
                             public void onComplete(@NonNull Task<Uri> task) {
                                 Uri downloadUri = task.getResult();
-                                postMap.put("image", downloadUri.toString());
-                                postdata(postMap);
+                                postdata(title_data, article_data, downloadUri.toString());
                             }
                         });
                     }else {
-                        postdata(postMap);
+                        postdata(title_data, article_data, null);
                     }
 
 
@@ -141,14 +136,23 @@ public class CreatePostFragment extends Fragment {
         return view;
     }
 
-    private void postdata(Map<String, Object> postMap){
+    private void postdata(String title_data, String article_data, String downloadUri){
+        final Map<String, Object> postMap = new HashMap<>();
+        postMap.put("title", title_data);
+        postMap.put("article", article_data);
+        postMap.put("timestamp", FieldValue.serverTimestamp());
+        postMap.put("user_id", user_id);
+        if(downloadUri != null){
+            postMap.put("image", downloadUri);
+        }
+
         postBtn.setEnabled(false);
         collectionReference
                 .add(postMap)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                        Log.d(TAG, "DocumentSnapshot added with ID:" + documentReference.getId());
                         Toast.makeText(getContext(), "Post Created", Toast.LENGTH_SHORT).show();
                         sendToMain();
                     }
@@ -172,6 +176,8 @@ public class CreatePostFragment extends Fragment {
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .start(getActivity());
     }
+
+    //TODO Image url not working
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

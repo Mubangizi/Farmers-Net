@@ -46,7 +46,7 @@ public class PostActivity extends AppCompatActivity {
         postImageView = findViewById(R.id.post_rec_imageView);
         dateTextView = findViewById(R.id.post_rec_time_textView);
 
-        FirebaseUtil.openFireBaseReference("Posts");
+        FirebaseUtil.openFireBaseReference("Posts", this);
         firebaseFirestore = FirebaseUtil.firebaseFirestore;
         collectionReference = FirebaseUtil.collectionReference;
         postList = FirebaseUtil.postArrayList;
@@ -73,9 +73,6 @@ public class PostActivity extends AppCompatActivity {
                     postImageView.setVisibility(View.GONE);
                 }else
                     postImageView.setAdjustViewBounds(true);
-                //TODO: change image height to wrap content
-                    //postImageView.getLayoutParams();
-                    //postImageView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                     Glide.with(PostActivity.this).load(image_uri).into(postImageView);
 
             }
