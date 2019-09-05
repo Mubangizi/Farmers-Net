@@ -33,4 +33,6 @@
     <string name="number">+256</string>
     <string name="register">Register</string>
     <string name="uploadImage">Upload Profile Image</string>
+    <string name="chartroom_title">Chartroom Title</string>
+    <string name="discription">Discription</string>
 </resources>
