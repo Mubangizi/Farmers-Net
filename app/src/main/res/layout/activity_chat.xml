@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context=".ChatActivity">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/message_recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/ColorPaleblue"
+        app:layout_constraintBottom_toTopOf="@+id/message_text_input"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/message_text_input"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/message_attachment_icon"
+        app:layout_constraintStart_toEndOf="@+id/message_smile_icon_imageView"
+        app:layout_constraintTop_toBottomOf="@+id/message_recyclerView" />
+
+    <ImageView
+        android:id="@+id/message_send_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@mipmap/ic_send_launcher" />
+
+    <ImageView
+        android:id="@+id/message_attachment_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/message_send_icon"
+        app:srcCompat="@mipmap/ic_attach_launcher" />
+
+    <ImageView
+        android:id="@+id/message_smile_icon_imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@mipmap/ic_smile_face_launcher" />
+
+</android.support.constraint.ConstraintLayout>
