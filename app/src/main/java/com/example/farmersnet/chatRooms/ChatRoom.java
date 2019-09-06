@@ -1,13 +1,16 @@
 package com.example.farmersnet.chatRooms;
 
-public class ChartRoom {
+import java.util.Date;
+
+public class ChatRoom {
     private String name;
     private String description;
+    private Date timestamp;
 
-    public ChartRoom(){
+    public ChatRoom(){
     }
 
-    public ChartRoom(String name, String description) {
+    public ChatRoom(String name, String description) {
         this.name = name;
         this.description = description;
     }

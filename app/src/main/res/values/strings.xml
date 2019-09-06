@@ -35,4 +35,9 @@
     <string name="uploadImage">Upload Profile Image</string>
     <string name="chartroom_title">Chartroom Title</string>
     <string name="discription">Discription</string>
+    <string name="enter_room_name">Enter chat room name</string>
+    <string name="enter_description">Add Description</string>
+    <string name="create">Create</string>
+    <string name="add_people">Add people</string>
+    <string name="create_chatroom">Create Chat Room</string>
 </resources>
