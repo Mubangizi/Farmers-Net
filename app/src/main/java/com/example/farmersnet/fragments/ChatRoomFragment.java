@@ -6,18 +6,38 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.TextView;
 
 import com.example.farmersnet.R;
+import com.example.farmersnet.chatRooms.ChatRoom;
+import com.example.farmersnet.chatRooms.ChatRoomAdapter;
 import com.example.farmersnet.chatRooms.CreateChatRoomActivity;
+import com.example.farmersnet.post.Post;
+import com.example.farmersnet.post.PostRecyclerAdapter;
+import com.example.farmersnet.utils.FirebaseUtil;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
 
 public class ChatRoomFragment extends Fragment {
 
     private FloatingActionButton createChatFab;
     private TextView createChatText;
+    private RecyclerView chatRoomsRecyclerView;
+    private CollectionReference collectionReference;
+    private ArrayList<ChatRoom> chatRoomArrayList;
+    private ChatRoomAdapter chatRoomAdapter;
 
     @Nullable
     @Override
@@ -26,6 +46,15 @@ public class ChatRoomFragment extends Fragment {
 
         createChatFab = view.findViewById(R.id.add_chatroom_fab);
         createChatText = view.findViewById(R.id.chatroom_create_TextView);
+
+        chatRoomsRecyclerView = view.findViewById(R.id.chartroom_recyclerView);
+        FirebaseUtil.openFireBaseReference("ChatRooms", getActivity());
+        collectionReference = FirebaseUtil.collectionReference;
+        getChatRooms();
+        chatRoomArrayList = new ArrayList<ChatRoom>();
+        chatRoomAdapter = new ChatRoomAdapter(chatRoomArrayList);
+        chatRoomsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL, false));
+        chatRoomsRecyclerView.setAdapter(chatRoomAdapter);
 
         createChatFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,6 +70,25 @@ public class ChatRoomFragment extends Fragment {
         });
         return view;
 
+    }
+
+    private void getChatRooms() {
+        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@javax.annotation.Nullable QuerySnapshot queryDocumentSnapshots, @javax.annotation.Nullable FirebaseFirestoreException e) {
+                if (!queryDocumentSnapshots.isEmpty()) {
+                    for (@NonNull DocumentChange doc : queryDocumentSnapshots.getDocumentChanges()) {
+
+                        if(doc.getType()== DocumentChange.Type.ADDED){
+                            String postId = doc.getDocument().getId();
+                            ChatRoom chatRoom = doc.getDocument().toObject(ChatRoom.class);
+                            chatRoomArrayList.add(chatRoom);
+                            chatRoomAdapter.notifyDataSetChanged();
+                        }
+                    }
+                }
+            }
+        });
     }
 
     private void sendTocreateChatRoom() {

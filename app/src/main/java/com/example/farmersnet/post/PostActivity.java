@@ -1,16 +1,14 @@
-package com.example.farmersnet;
+package com.example.farmersnet.post;
 
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.farmersnet.post.Post;
+import com.example.farmersnet.R;
 import com.example.farmersnet.utils.FirebaseUtil;
 import com.example.farmersnet.utils.MyTimeUtil;
 import com.google.android.gms.tasks.OnCompleteListener;

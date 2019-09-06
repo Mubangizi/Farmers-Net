@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.farmersnet.utils.FirebaseUtil;
-import com.example.farmersnet.PostActivity;
 import com.example.farmersnet.R;
 import com.example.farmersnet.utils.MyTimeUtil;
 import com.google.firebase.firestore.CollectionReference;

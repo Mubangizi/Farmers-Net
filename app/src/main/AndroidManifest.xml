@@ -16,7 +16,7 @@
         <activity android:name=".chatRooms.CreateChatRoomActivity"></activity>
         <activity android:name=".RegisterActivity" />
         <activity
-            android:name=".PostActivity"
+            android:name=".post.PostActivity"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

@@ -19,16 +19,11 @@ import java.util.ArrayList;
 
 public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRoomViewHolder> {
 
-    private final FirebaseFirestore firebaseFirestore;
-    private final CollectionReference collectionReference;
     public static ArrayList<ChatRoom> chatRoomArrayList;
     Context context;
 
-    public ChatRoomAdapter(){
-        //FirebaseUtil.openFireBaseReference("Posts");
-        firebaseFirestore = FirebaseUtil.firebaseFirestore;
-        collectionReference = FirebaseUtil.collectionReference;
-        chatRoomArrayList = new ArrayList<ChatRoom>();
+    public ChatRoomAdapter(ArrayList<ChatRoom> chatRoomArrayList){
+        this.chatRoomArrayList = chatRoomArrayList;
 
     }
 
@@ -42,7 +37,6 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
 
     @Override
     public void onBindViewHolder(@NonNull ChatRoomViewHolder chatRoomViewHolder, int i) {
-
         final ChatRoom chatRoom = chatRoomArrayList.get(i);
         chatRoomViewHolder.bind(chatRoom);
     }
