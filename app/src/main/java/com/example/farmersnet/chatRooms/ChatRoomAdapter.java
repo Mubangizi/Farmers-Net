@@ -39,11 +39,6 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
         return new ChatRoomViewHolder(view);
     }
 
-    private void sendToPost() {
-        Intent messageIntent = new Intent(context, ChatActivity.class);
-        context.startActivity(messageIntent);
-    }
-
 
     @Override
     public void onBindViewHolder(@NonNull ChatRoomViewHolder chatRoomViewHolder, int i) {
@@ -55,11 +50,27 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
                 sendToPost();
             }
         });
+        chatRoomViewHolder.roomImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendToChatPage();
+            }
+
+        });
     }
 
     @Override
     public int getItemCount() {
         return chatRoomArrayList.size();
+    }
+
+
+    private void sendToChatPage() {
+    }
+
+    private void sendToPost() {
+        Intent messageIntent = new Intent(context, ChatActivity.class);
+        context.startActivity(messageIntent);
     }
 
     public class ChatRoomViewHolder extends RecyclerView.ViewHolder{

@@ -40,4 +40,6 @@
     <string name="create">Create</string>
     <string name="add_people">Add people</string>
     <string name="create_chatroom">Create Chat Room</string>
+    <string name="members">Members</string>
+    <string name="chat_description">Chat Description</string>
 </resources>
