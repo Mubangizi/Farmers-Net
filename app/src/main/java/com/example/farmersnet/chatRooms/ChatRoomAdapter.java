@@ -66,6 +66,8 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
 
 
     private void sendToChatPage() {
+        Intent messageIntent = new Intent(context, ChatRoomPageActivity.class);
+        context.startActivity(messageIntent);
     }
 
     private void sendToPost() {
