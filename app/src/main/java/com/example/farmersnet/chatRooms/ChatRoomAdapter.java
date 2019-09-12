@@ -95,6 +95,5 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
                 Glide.with(context).load(chatRoom.getImage()).into(roomImage);
             }
         }
-
     }
 }

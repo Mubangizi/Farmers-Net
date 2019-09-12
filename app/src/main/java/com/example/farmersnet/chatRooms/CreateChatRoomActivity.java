@@ -131,7 +131,7 @@ public class CreateChatRoomActivity extends AppCompatActivity {
         chatRoomMap.put("description", description);
         chatRoomMap.put("timestamp", FieldValue.serverTimestamp());
         if(downloadUri!=null){
-            chatRoomMap.put("chat Room Image", downloadUri);
+            chatRoomMap.put("image", downloadUri);
         }
 
         createBtn.setEnabled(false);
@@ -140,7 +140,9 @@ public class CreateChatRoomActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
+
                         String chatRoomId = documentReference.getId();
+
                         addchatroomMember(chatRoomId, user_id);
                         Toast.makeText(CreateChatRoomActivity.this, "Chat room Created", Toast.LENGTH_SHORT).show();
                         LoadingScreenUtil.dialog.dismiss();
@@ -177,6 +179,5 @@ public class CreateChatRoomActivity extends AppCompatActivity {
         Map<String, Object> likesMap = new HashMap<>();
         likesMap.put("member", user_id);
         firebaseFirestore.collection("ChatRooms/" + chatRoomId + "/members").add(likesMap);
-        Toast.makeText(CreateChatRoomActivity.this, "Liked Post", Toast.LENGTH_SHORT).show();
     }
 }

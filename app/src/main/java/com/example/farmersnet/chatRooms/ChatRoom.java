@@ -1,14 +1,17 @@
 package com.example.farmersnet.chatRooms;
 
+import com.example.farmersnet.post.PostID;
+
 import java.util.Date;
 
-public class ChatRoom {
+public class ChatRoom extends PostID {
     private String name;
     private String description;
     private String image;
     private Date timestamp;
 
     public ChatRoom(){
+
     }
 
     public ChatRoom(String name, String description) {
