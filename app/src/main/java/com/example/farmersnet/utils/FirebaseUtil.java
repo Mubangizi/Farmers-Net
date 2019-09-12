@@ -127,4 +127,8 @@ public class FirebaseUtil {
 
     }
 
+    //TODO: make an upload task util
+    public static void openFireBaseStorageReference(String ref, Activity callActivity){
+
+    }
 }

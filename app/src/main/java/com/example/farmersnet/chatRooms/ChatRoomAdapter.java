@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.farmersnet.ChatActivity;
 import com.example.farmersnet.R;
 import com.example.farmersnet.post.Post;
@@ -42,6 +43,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
 
     @Override
     public void onBindViewHolder(@NonNull ChatRoomViewHolder chatRoomViewHolder, int i) {
+
         final ChatRoom chatRoom = chatRoomArrayList.get(i);
         chatRoomViewHolder.bind(chatRoom);
         chatRoomViewHolder.nameTextView.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +91,9 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
         public void bind(ChatRoom chatRoom){
             nameTextView.setText(chatRoom.getName());
             descTextVew.setText(chatRoom.getDescription());
+            if( chatRoom.getImage()!=null){
+                Glide.with(context).load(chatRoom.getImage()).into(roomImage);
+            }
         }
 
     }

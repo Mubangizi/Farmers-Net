@@ -1,5 +1,6 @@
 package com.example.farmersnet.chatRooms;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -25,8 +26,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -47,8 +50,10 @@ public class CreateChatRoomActivity extends AppCompatActivity {
     private FirebaseFirestore firebaseFirestore;
     private CollectionReference collectionReference;
     private StorageReference storageReference;
+    private FirebaseAuth firebaseAuth;
     private String TAG;
     private UploadImageUtil uploadImageUtil;
+    private String user_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +66,8 @@ public class CreateChatRoomActivity extends AppCompatActivity {
         LoadingScreenUtil.createscreen("Creating", CreateChatRoomActivity.this);
         uploadImageUtil = new UploadImageUtil(CreateChatRoomActivity.this);
         storageReference = FirebaseStorage.getInstance().getReference();
+        firebaseAuth = FirebaseAuth.getInstance();
+        user_id = FirebaseUtil.mAuth.getCurrentUser().getUid();
 
         chatImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,6 +140,8 @@ public class CreateChatRoomActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
+                        String chatRoomId = documentReference.getId();
+                        addchatroomMember(chatRoomId, user_id);
                         Toast.makeText(CreateChatRoomActivity.this, "Chat room Created", Toast.LENGTH_SHORT).show();
                         LoadingScreenUtil.dialog.dismiss();
                         sendToChatrooms();
@@ -161,5 +170,13 @@ public class CreateChatRoomActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         uploadImageUtil.setresult(requestCode, resultCode,data, chatImage);
         chatImageUri = uploadImageUtil.getImageUri();
+    }
+
+    public void addchatroomMember(String chatRoomId, String user_id){
+        String randomName = UUID.randomUUID().toString();
+        Map<String, Object> likesMap = new HashMap<>();
+        likesMap.put("member", user_id);
+        firebaseFirestore.collection("ChatRooms/" + chatRoomId + "/members").add(likesMap);
+        Toast.makeText(CreateChatRoomActivity.this, "Liked Post", Toast.LENGTH_SHORT).show();
     }
 }

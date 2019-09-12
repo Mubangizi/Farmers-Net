@@ -5,6 +5,7 @@ import java.util.Date;
 public class ChatRoom {
     private String name;
     private String description;
+    private String image;
     private Date timestamp;
 
     public ChatRoom(){
@@ -29,5 +30,13 @@ public class ChatRoom {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }
