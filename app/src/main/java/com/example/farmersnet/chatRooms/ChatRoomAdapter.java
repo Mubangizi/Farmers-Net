@@ -2,8 +2,8 @@ package com.example.farmersnet.chatRooms;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +13,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.farmersnet.ChatActivity;
 import com.example.farmersnet.R;
-import com.example.farmersnet.post.Post;
-import com.example.farmersnet.post.PostActivity;
-import com.example.farmersnet.utils.FirebaseUtil;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 

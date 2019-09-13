@@ -1,11 +1,10 @@
 package com.example.farmersnet.chatRooms;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -17,7 +16,6 @@ import android.widget.Toast;
 
 import com.example.farmersnet.MainActivity;
 import com.example.farmersnet.R;
-import com.example.farmersnet.RegisterActivity;
 import com.example.farmersnet.utils.FirebaseUtil;
 import com.example.farmersnet.utils.LoadingScreenUtil;
 import com.example.farmersnet.utils.UploadImageUtil;
@@ -29,7 +27,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
