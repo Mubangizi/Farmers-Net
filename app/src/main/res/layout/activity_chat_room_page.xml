@@ -7,7 +7,7 @@
     tools:context=".chatRooms.ChatRoomPageActivity">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/chatRoomPageImageView"
         android:layout_width="0dp"
         android:layout_height="190dp"
         android:scaleType="centerCrop"
@@ -17,7 +17,7 @@
         app:srcCompat="@drawable/farm_logo" />
 
     <TextView
-        android:id="@+id/ChatRoomNametextView"
+        android:id="@+id/chatRoomPageNametextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -26,7 +26,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@color/colorWhite"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintBottom_toBottomOf="@+id/chatRoomPageImageView"
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.cardview.widget.CardView
@@ -35,14 +35,14 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView">
+        app:layout_constraintTop_toBottomOf="@+id/chatRoomPageImageView">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/chatRoomPageDescriptiontextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"

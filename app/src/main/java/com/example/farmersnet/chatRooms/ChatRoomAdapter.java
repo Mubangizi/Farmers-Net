@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRoomViewHolder> {
 
     public static ArrayList<ChatRoom> chatRoomArrayList;
-    Context context;
+    static Context context;
 
     public ChatRoomAdapter(ArrayList<ChatRoom> chatRoomArrayList){
         this.chatRoomArrayList = chatRoomArrayList;
@@ -38,19 +38,19 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
 
     @Override
     public void onBindViewHolder(@NonNull ChatRoomViewHolder chatRoomViewHolder, int i) {
-
+        final String postId = chatRoomArrayList.get(i).PostId;
         final ChatRoom chatRoom = chatRoomArrayList.get(i);
         chatRoomViewHolder.bind(chatRoom);
         chatRoomViewHolder.nameTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendToPost();
+                sendToMessage(postId);
             }
         });
         chatRoomViewHolder.roomImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendToChatPage();
+                sendToChatPage(postId);
             }
 
         });
@@ -62,14 +62,16 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
     }
 
 
-    private void sendToChatPage() {
-        Intent messageIntent = new Intent(context, ChatRoomPageActivity.class);
+    private void sendToMessage(String postId) {
+        Intent messageIntent = new Intent(context, ChatActivity.class);
+        messageIntent.putExtra("postId", postId);
         context.startActivity(messageIntent);
     }
 
-    private void sendToPost() {
-        Intent messageIntent = new Intent(context, ChatActivity.class);
-        context.startActivity(messageIntent);
+    private void sendToChatPage(String postId) {
+        Intent chatpageIntent = new Intent(context, ChatRoomPageActivity.class);
+        chatpageIntent.putExtra("postId", postId);
+        context.startActivity(chatpageIntent);
     }
 
     public static class ChatRoomViewHolder extends RecyclerView.ViewHolder{

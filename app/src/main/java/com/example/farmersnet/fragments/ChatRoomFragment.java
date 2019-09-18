@@ -77,7 +77,7 @@ public class ChatRoomFragment extends Fragment {
 
                         if(doc.getType()== DocumentChange.Type.ADDED){
                             String postId = doc.getDocument().getId();
-                            ChatRoom chatRoom = doc.getDocument().toObject(ChatRoom.class);
+                            ChatRoom chatRoom = doc.getDocument().toObject(ChatRoom.class).withId(postId);
                             chatRoomArrayList.add(chatRoom);
                             chatRoomAdapter.notifyDataSetChanged();
                         }
