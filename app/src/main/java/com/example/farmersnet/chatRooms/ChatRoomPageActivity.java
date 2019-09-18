@@ -52,12 +52,10 @@ public class ChatRoomPageActivity extends AppCompatActivity {
                 chatRoomDescription.setText(description_text);
 
                 String image_uri = task.getResult().getString("image");
-                if(image_uri == null){
-                    chatRoomImageView.setVisibility(View.GONE);
-                }else
+                if (image_uri != null) {
                     chatRoomImageView.setAdjustViewBounds(true);
                     Glide.with(ChatRoomPageActivity.this).load(image_uri).into(chatRoomImageView);
-
+                }
             }
         });
 

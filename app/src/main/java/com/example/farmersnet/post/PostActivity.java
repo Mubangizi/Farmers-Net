@@ -69,10 +69,10 @@ public class PostActivity extends AppCompatActivity {
                 String image_uri = task.getResult().getString("image");
                 if(image_uri == null){
                     postImageView.setVisibility(View.GONE);
-                }else
+                }else {
                     postImageView.setAdjustViewBounds(true);
                     Glide.with(PostActivity.this).load(image_uri).into(postImageView);
-
+                }
             }
         });
 

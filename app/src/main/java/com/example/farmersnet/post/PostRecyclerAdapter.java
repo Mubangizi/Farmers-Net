@@ -105,8 +105,9 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
             String imageValue = post.getImage();
             if(imageValue == null){
                 postImageView.setVisibility(View.GONE);
-            }else
+            }else {
                 Glide.with(context).load(imageValue).into(postImageView);
+            }
 
             //POST DATE
             Date timestamp = post.getTimestamp();

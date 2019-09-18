@@ -7,19 +7,15 @@ public class Message {
 
     private String id;
     private String text;
-    private String name;
-    private String photoUrl;
-    private String imageUrl;
+    private String image;
     private Date timestamp;
 
     public Message() {
     }
 
-    public Message(String text, String name, String photoUrl, String imageUrl) {
+    public Message(String text, String photoUrl, String image) {
         this.text = text;
-        this.name = name;
-        this.photoUrl = photoUrl;
-        this.imageUrl = imageUrl;
+        this.image = image;
     }
 
     public String getId() {
@@ -34,32 +30,16 @@ public class Message {
         this.text = text;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhotoUrl() {
-        return photoUrl;
-    }
-
     public String getText() {
         return text;
     }
 
-    public void setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
-    }
-
     public String getImageUrl() {
-        return imageUrl;
+        return image;
     }
 
     public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+        this.image = imageUrl;
     }
 
     public Date getTimestamp() {
