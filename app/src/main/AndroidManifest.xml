@@ -20,7 +20,7 @@
             </intent-filter>
         </service>
         <activity android:name=".chatRooms.ChatRoomPageActivity"></activity>
-        <activity android:name=".ChatActivity" />
+        <activity android:name=".messages.ChatActivity" />
         <activity android:name=".chatRooms.CreateChatRoomActivity" />
         <activity android:name=".RegisterActivity" />
         <activity

@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.farmersnet.ChatActivity;
+import com.example.farmersnet.messages.ChatActivity;
 import com.example.farmersnet.R;
 
 import java.util.ArrayList;
@@ -72,7 +72,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
         context.startActivity(messageIntent);
     }
 
-    public class ChatRoomViewHolder extends RecyclerView.ViewHolder{
+    public static class ChatRoomViewHolder extends RecyclerView.ViewHolder{
         public  TextView nameTextView;
         private TextView descTextVew;
         private ImageView roomImage;

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#EEEEEE"
 
-    tools:context=".ChatActivity">
+    tools:context=".messages.ChatActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/message_recyclerView"
@@ -16,7 +16,8 @@
         app:layout_constraintBottom_toTopOf="@+id/message_relative_Laayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/item_message_layout" />
 
     <RelativeLayout
         android:id="@+id/message_relative_Laayout"
