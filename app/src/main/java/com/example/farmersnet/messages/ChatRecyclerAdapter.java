@@ -12,8 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.farmersnet.R;
 import com.example.farmersnet.chatRooms.ChatRoom;
+import com.example.farmersnet.utils.MyTimeUtil;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -32,7 +34,7 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
     @Override
     public ChatRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-        View view = LayoutInflater.from(context).inflate(R.layout.chartroom_layout, parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_message_layout, parent,false);
         return new ChatRecyclerViewHolder(view);
     }
 
@@ -65,8 +67,17 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
 
         public void bind(Message message){
             messageTextView.setText(message.getText());
-            messageSenderNameTextView.setText(message.getName());
-            messengeTimeTextView.setText(message.getTimestamp().toString());
+            //messageSenderNameTextView.setText(message.getName());
+
+            //Message Time
+            Date timestamp = message.getTimestamp();
+            if(timestamp != null){
+                Long milliseconds = timestamp.getTime();
+                String timeplace = MyTimeUtil.telltime(milliseconds);
+                messengeTimeTextView.setText(timeplace);
+            }else {
+                messengeTimeTextView.setText("Just now");
+            }
         }
     }
 }

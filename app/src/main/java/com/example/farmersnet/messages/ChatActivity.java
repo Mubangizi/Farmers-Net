@@ -1,6 +1,7 @@
 package com.example.farmersnet.messages;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -51,18 +52,19 @@ public class ChatActivity extends AppCompatActivity {
         messageEditText = findViewById(R.id.message_text_input);
         final String roomId = getIntent().getExtras().getString("postId");
 
-        chatRecyclerView = findViewById(R.id.message_recyclerView);
-        messageArrayList = new ArrayList<Message>();
-        chatRecyclerAdapter = new ChatRecyclerAdapter(messageArrayList);
-        getMessages();
-        chatRecyclerView.setLayoutManager(new LinearLayoutManager(ChatActivity.this, LinearLayoutManager.VERTICAL, false));
-        chatRecyclerView.setAdapter(chatRecyclerAdapter);
-
         //firebase
         FirebaseUtil.openFireBaseReference("ChatRooms/"+ roomId + "/Messages", this);
         collectionReference = FirebaseUtil.collectionReference;
         mAuth = FirebaseAuth.getInstance();
         final String user_id = mAuth.getCurrentUser().getUid();
+
+        chatRecyclerView = findViewById(R.id.message_recyclerView);
+        messageArrayList = new ArrayList<Message>();
+
+        chatRecyclerAdapter = new ChatRecyclerAdapter(messageArrayList);
+        chatRecyclerView.setLayoutManager(new LinearLayoutManager(ChatActivity.this, LinearLayoutManager.VERTICAL, false));
+        chatRecyclerView.setAdapter(chatRecyclerAdapter);
+        getMessages();
 
         //Send Message;
         sendMessageIcon.setOnClickListener(new View.OnClickListener() {
@@ -76,9 +78,10 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void getMessages() {
-        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+
+        collectionReference.orderBy("timestamp").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            public void onEvent(@javax.annotation.Nullable QuerySnapshot queryDocumentSnapshots, @javax.annotation.Nullable FirebaseFirestoreException e) {
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                 if (!queryDocumentSnapshots.isEmpty()) {
                     for (@NonNull DocumentChange doc : queryDocumentSnapshots.getDocumentChanges()) {
 
@@ -108,14 +111,15 @@ public class ChatActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(ChatActivity.this, "Post Created", Toast.LENGTH_SHORT).show();
+                        messageEditText.setText("");
+                        sendMessageIcon.setEnabled(true);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         sendMessageIcon.setEnabled(true);
-                        Toast.makeText(ChatActivity.this, "Error adding document: "+ e, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ChatActivity.this, "Error: "+ e, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
