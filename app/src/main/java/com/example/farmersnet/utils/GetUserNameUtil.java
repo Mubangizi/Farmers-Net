@@ -1,6 +1,9 @@
 package com.example.farmersnet.utils;
 
 import android.app.Activity;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -15,12 +18,10 @@ public class GetUserNameUtil {
     private static Activity activity;
 
 
-    public GetUserNameUtil(String user_id, Activity activity) {
-        this.user_id = user_id;
-        this.activity = activity;
+    private GetUserNameUtil() {
     }
 
-    public static String getusername(){
+    public static void setusername(String user_id, Activity activity, final TextView textView){
         FirebaseUtil.openFireBaseReference("Users", activity);
         collectionReference = FirebaseUtil.collectionReference;
         final String[] username = new String[1];
@@ -31,13 +32,11 @@ public class GetUserNameUtil {
                 if (task.getResult().exists()) {
                     String fname = task.getResult().getString("fname");
                     String lname = task.getResult().getString("lname");
-                    username[0] = fname+" "+ lname;
+                    textView.setText(fname+" "+ lname);
 
                 }
             }
 
         });
-
-        return username[0];
     }
 }

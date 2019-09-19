@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.farmersnet.R;
 import com.example.farmersnet.chatRooms.ChatRoom;
+import com.example.farmersnet.utils.GetUserNameUtil;
 import com.example.farmersnet.utils.MyTimeUtil;
 
 import java.util.ArrayList;
@@ -67,7 +68,7 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
 
         public void bind(Message message){
             messageTextView.setText(message.getText());
-            //messageSenderNameTextView.setText(message.getName());
+            GetUserNameUtil.setusername(message.getUser_id(), null, messageSenderNameTextView);
 
             //Message Time
             Date timestamp = message.getTimestamp();
