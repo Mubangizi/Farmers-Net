@@ -3,11 +3,12 @@
     <color name="colorPrimary">#620080</color>
     <color name="colorPrimaryDark">#3B024C</color>
     <color name="colorAccent">#7C4DFF</color>
-    <color name="colorWhite">#fff</color>
+    <color name="colorWhite">#FFFFFF</color>
     <color name="colorgrey">#EEEEEE</color>
     <color name="colorLightGrey">#FCFCFC</color>
     <color name="colorgreydark">#BCBBBB</color>
     <color name="colorSecondary">#FFC107</color>
     <color name="colorBlack">#000</color>
     <color name="colorLightBlue">#03A9F4</color>
+    <color name="ColorPaleblue">#BCD2EE</color>
 </resources>

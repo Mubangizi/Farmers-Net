@@ -2,10 +2,10 @@ package com.example.farmersnet.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,17 +15,12 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.farmersnet.R;
 import com.example.farmersnet.RegisterActivity;
-import com.example.farmersnet.post.Post;
-import com.example.farmersnet.post.PostRecyclerAdapter;
 import com.example.farmersnet.utils.FirebaseUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.ArrayList;
 
 public class AccountFragment extends Fragment {
 

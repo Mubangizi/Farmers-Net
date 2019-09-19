@@ -1,16 +1,14 @@
-package com.example.farmersnet;
+package com.example.farmersnet.post;
 
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.farmersnet.post.Post;
+import com.example.farmersnet.R;
 import com.example.farmersnet.utils.FirebaseUtil;
 import com.example.farmersnet.utils.MyTimeUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -71,10 +69,10 @@ public class PostActivity extends AppCompatActivity {
                 String image_uri = task.getResult().getString("image");
                 if(image_uri == null){
                     postImageView.setVisibility(View.GONE);
-                }else
+                }else {
                     postImageView.setAdjustViewBounds(true);
                     Glide.with(PostActivity.this).load(image_uri).into(postImageView);
-
+                }
             }
         });
 

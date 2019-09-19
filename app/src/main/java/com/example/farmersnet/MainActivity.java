@@ -1,24 +1,21 @@
 package com.example.farmersnet;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.farmersnet.fragments.AccountFragment;
-import com.example.farmersnet.fragments.ChartRoomFragment;
+import com.example.farmersnet.fragments.ChatRoomFragment;
 import com.example.farmersnet.fragments.CreatePostFragment;
 import com.example.farmersnet.fragments.HomeFragment;
 import com.example.farmersnet.utils.FirebaseUtil;
 import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.auth.ErrorCodes;
-import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -30,9 +27,25 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         setContentView(R.layout.activity_main);
         BottomNavigationView navigationView = findViewById(R.id.bottomNavView);
         navigationView.setOnNavigationItemSelectedListener(this);
+
         loadFragment(new HomeFragment());
 
+
+
     }
+
+//    private void startFrament(String fragName) {
+//
+//        switch (fragName){
+//            case "chatRoom":
+//                loadFragment(new ChatRoomFragment());
+//            case "profile":
+//                loadFragment(new AccountFragment());
+//            default:
+//                loadFragment(new HomeFragment());
+//
+//        }
+//    }
 
 
     private void sendToCreatePost() {
@@ -82,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 fragment = new CreatePostFragment();
                 break;
             case R.id.frag_item_chartRoom:
-                fragment = new ChartRoomFragment();
+                fragment = new ChatRoomFragment();
                 break;
 
 

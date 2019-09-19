@@ -2,8 +2,8 @@ package com.example.farmersnet.post;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.farmersnet.utils.FirebaseUtil;
-import com.example.farmersnet.PostActivity;
 import com.example.farmersnet.R;
 import com.example.farmersnet.utils.MyTimeUtil;
 import com.google.firebase.firestore.CollectionReference;
@@ -106,8 +105,9 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
             String imageValue = post.getImage();
             if(imageValue == null){
                 postImageView.setVisibility(View.GONE);
-            }else
+            }else {
                 Glide.with(context).load(imageValue).into(postImageView);
+            }
 
             //POST DATE
             Date timestamp = post.getTimestamp();
