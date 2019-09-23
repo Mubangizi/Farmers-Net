@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/nav_profile_image"
+                    android:id="@+id/create_user_profile_image"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginStart="8dp"
@@ -46,7 +46,7 @@
                     android:layout_marginTop="16dp"
                     android:hint="@string/username"
                     android:textSize="18sp"
-                    app:layout_constraintStart_toEndOf="@+id/nav_profile_image"
+                    app:layout_constraintStart_toEndOf="@+id/create_user_profile_image"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <View
@@ -57,7 +57,7 @@
                     android:background="#6F6F6F"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/nav_profile_image" />
+                    app:layout_constraintTop_toBottomOf="@+id/create_user_profile_image" />
 
 
                 <TextView

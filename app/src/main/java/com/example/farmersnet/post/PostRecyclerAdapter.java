@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.farmersnet.utils.FirebaseUtil;
 import com.example.farmersnet.R;
+import com.example.farmersnet.utils.GetUserNameUtil;
 import com.example.farmersnet.utils.MyTimeUtil;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -89,6 +90,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
         private TextView titleTextView;
         private TextView articleTextView;
         private TextView dateTextView;
+        private TextView userNameTextView;
         private ImageView postImageView;
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -96,12 +98,14 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
             articleTextView = itemView.findViewById(R.id.post_rec_article_textView);
             dateTextView = itemView.findViewById(R.id.post_rec_time_textView);
             postImageView = itemView.findViewById(R.id.post_rec_imageView);
+            userNameTextView = itemView.findViewById(R.id.post_rec_username_textView);
 
         }
 
         public void bind(Post post){
             titleTextView.setText(post.getTitle());
             articleTextView.setText(post.getArticle());
+            //GetUserNameUtil.setusername(post.getUser_id(), null, userNameTextView);
             String imageValue = post.getImage();
             if(imageValue == null){
                 postImageView.setVisibility(View.GONE);

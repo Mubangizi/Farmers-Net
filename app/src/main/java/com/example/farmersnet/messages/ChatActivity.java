@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -71,7 +72,9 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String messageText = messageEditText.getText().toString();
-                sendMessage(messageText, user_id, null);
+                if (!TextUtils.isEmpty(messageText)){
+                    sendMessage(messageText, user_id, null);
+                }
             }
         });
 

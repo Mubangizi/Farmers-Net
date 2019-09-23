@@ -6,7 +6,16 @@ public class Post extends PostID {
     private String title;
     private String article;
     private String image;
+    private String user_id;
     private Date timestamp;
+
+    public Post() {
+
+    }
+    public Post(String title, String article) {
+        this.title = title;
+        this.article = article;
+    }
 
     public Date getTimestamp() {
         return timestamp;
@@ -39,12 +48,11 @@ public class Post extends PostID {
     public void setArticle(String article) {
         this.article = article;
     }
-
-    public Post() {
-
+    public String getUser_id() {
+        return user_id;
     }
-    public Post(String title, String article) {
-        this.title = title;
-        this.article = article;
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
 }
