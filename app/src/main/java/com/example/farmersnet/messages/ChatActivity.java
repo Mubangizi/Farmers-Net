@@ -77,6 +77,7 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
         });
+        //todo: Add sending of images
 
     }
 

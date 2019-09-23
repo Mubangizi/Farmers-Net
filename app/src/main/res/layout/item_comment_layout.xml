@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/comment_user_image"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/farm_logo"/>
+
+    <TextView
+        android:id="@+id/comment_username_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="12dp"
+        android:layout_toEndOf="@+id/comment_user_image"
+        android:text="@string/username"
+        android:textColor="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/comment_time_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="12dp"
+        android:layout_toEndOf="@+id/comment_username_textView"
+        android:text="@string/date"
+        android:textColor="@color/colorgreydark" />
+
+    <TextView
+        android:id="@+id/comment_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/comment_username_textView"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="12dp"
+        android:layout_toEndOf="@+id/comment_user_image"
+        android:text="TextView"
+        android:textColor="@color/colorBlack" />
+
+    <view
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@+id/comment_textView"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:textColor="@color/colorBlack" />
+
+</RelativeLayout>

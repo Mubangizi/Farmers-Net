@@ -2,6 +2,8 @@ package com.example.farmersnet.post;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -29,6 +31,7 @@ public class PostActivity extends AppCompatActivity {
     private ImageView postImageView;
     private TextView articleTextView;
     private TextView dateTextView;
+    private RecyclerView commentRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class PostActivity extends AppCompatActivity {
         articleTextView = findViewById(R.id.post_rec_article_textView);
         postImageView = findViewById(R.id.post_rec_imageView);
         dateTextView = findViewById(R.id.post_rec_time_textView);
+        commentRecyclerView = findViewById(R.id.comment_recyclerView);
 
         FirebaseUtil.openFireBaseReference("Posts", this);
         firebaseFirestore = FirebaseUtil.firebaseFirestore;
