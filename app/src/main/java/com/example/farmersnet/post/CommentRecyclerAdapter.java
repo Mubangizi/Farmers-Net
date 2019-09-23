@@ -25,15 +25,14 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
 
     public CommentRecyclerAdapter(ArrayList<Message> messageArrayLists){
         this.messageArrayLists= messageArrayLists;
-
     }
-
+    //todo: get comments from database
     @NonNull
     @Override
     public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
         View view = LayoutInflater.from(context).inflate(R.layout.item_comment_layout, parent,false);
-        return new CommentRecyclerAdapter.CommentViewHolder(view);
+        return new CommentViewHolder(view);
     }
 
     @Override
@@ -56,12 +55,12 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
 
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
-
             commentTextView = (TextView) itemView.findViewById(R.id.comment_textView);
             commentUserName = (TextView) itemView.findViewById(R.id.comment_username_textView);
             commentUserImage = (ImageView) itemView.findViewById(R.id.comment_user_image);
             commentTimeTextView = (TextView) itemView.findViewById(R.id.comment_time_textview);
         }
+
 
         public void bind(Message message){
             commentTextView.setText(message.getText());

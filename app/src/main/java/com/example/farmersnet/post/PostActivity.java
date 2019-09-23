@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +24,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
@@ -41,11 +44,17 @@ public class PostActivity extends AppCompatActivity {
 
     private FirebaseFirestore firebaseFirestore;
     private CollectionReference collectionReference;
+    private FirebaseAuth mAuth;
+    private String currentUserId;
+
     private ArrayList<Post> postList;
     private TextView titleTextView;
     private ImageView postImageView;
     private TextView articleTextView;
     private TextView dateTextView;
+    private EditText commentEditText;
+    private ImageView addCommentImageView;
+    private ImageView currentUserImageView;
     private RecyclerView commentRecyclerView;
     private ArrayList<Message> commentArrayList;
     private CommentRecyclerAdapter commentRecyclerAdapter;
@@ -64,6 +73,9 @@ public class PostActivity extends AppCompatActivity {
         articleTextView = findViewById(R.id.post_rec_article_textView);
         postImageView = findViewById(R.id.post_rec_imageView);
         dateTextView = findViewById(R.id.post_rec_time_textView);
+        commentEditText = findViewById(R.id.post_rec_add_comment_editText);
+        addCommentImageView = findViewById(R.id.post_rec_add_comment_imageView);
+
         commentRecyclerView = findViewById(R.id.comment_recyclerView);
         commentArrayList = new ArrayList<Message>();
 
@@ -71,6 +83,9 @@ public class PostActivity extends AppCompatActivity {
         firebaseFirestore = FirebaseUtil.firebaseFirestore;
         collectionReference = FirebaseUtil.collectionReference;
         postList = FirebaseUtil.postArrayList;
+        mAuth = FirebaseAuth.getInstance();
+        currentUserId = mAuth.getCurrentUser().getUid();
+
 
         //Recycler adapter
         commentRecyclerAdapter = new CommentRecyclerAdapter(commentArrayList);
@@ -78,6 +93,7 @@ public class PostActivity extends AppCompatActivity {
         commentRecyclerView.setAdapter(commentRecyclerAdapter);
         getComments();
 
+        //get post
         collectionReference.document(postId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -104,11 +120,22 @@ public class PostActivity extends AppCompatActivity {
                 }
             }
         });
+
+        //Add a comment
+        addCommentImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String commentText = commentEditText.getText().toString();
+                if(!TextUtils.isEmpty(commentText)){
+                    addComment(commentText, currentUserId);
+                }
+            }
+        });
     }
 
     private void getComments() {
 
-        collectionReference.document(postId).collection("messages").orderBy("timestamp").addSnapshotListener(new EventListener<QuerySnapshot>() {
+        collectionReference.document(postId).collection("comments").orderBy("timestamp").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                 if (!queryDocumentSnapshots.isEmpty()) {
@@ -125,31 +152,28 @@ public class PostActivity extends AppCompatActivity {
         });
     }
 
-    private void AddComment(String text, String user_id, String downloadUri){
-        final Map<String, Object> messageMap = new HashMap<>();
-        messageMap.put("text", text);
-        messageMap.put("timestamp", FieldValue.serverTimestamp());
-        messageMap.put("user_id", user_id);
-        if(downloadUri != null){
-            messageMap.put("image", downloadUri);
-        }
+    private void addComment(String text, String user_id){
+        final Map<String, Object> commentMap = new HashMap<>();
+        commentMap.put("text", text);
+        commentMap.put("timestamp", FieldValue.serverTimestamp());
+        commentMap.put("user_id", user_id);
 
-//        sendMessageIcon.setEnabled(false);
-//        collectionReference
-//                .add(messageMap)
-//                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                    @Override
-//                    public void onSuccess(DocumentReference documentReference) {
-//                        messageEditText.setText("");
-//                        sendMessageIcon.setEnabled(true);
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        sendMessageIcon.setEnabled(true);
-//                        Toast.makeText(ChatActivity.this, "Error: "+ e, Toast.LENGTH_SHORT).show();
-//                    }
-//                });
+        addCommentImageView.setEnabled(false);
+        collectionReference.document(postId).collection("comments")
+                .add(commentMap)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        commentEditText.setText("");
+                        addCommentImageView.setEnabled(true);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        addCommentImageView.setEnabled(true);
+                        Toast.makeText(PostActivity.this, "Error: "+ e, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }
