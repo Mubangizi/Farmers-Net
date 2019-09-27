@@ -41,7 +41,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/post_rec_comment_icon"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/post_rec_article_textView"
-                app:srcCompat="@mipmap/ic_like_icon" />
+                app:srcCompat="@mipmap/ic_like_dark_icon" />
 
             <ImageView
                 android:id="@+id/post_rec_comment_icon"
