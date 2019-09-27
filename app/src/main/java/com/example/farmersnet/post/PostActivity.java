@@ -19,6 +19,7 @@ import com.example.farmersnet.R;
 import com.example.farmersnet.messages.ChatActivity;
 import com.example.farmersnet.messages.Message;
 import com.example.farmersnet.utils.FirebaseUtil;
+import com.example.farmersnet.utils.GetUserNameUtil;
 import com.example.farmersnet.utils.MyTimeUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -53,6 +54,8 @@ public class PostActivity extends AppCompatActivity {
     private TextView articleTextView;
     private TextView dateTextView;
     private EditText commentEditText;
+    private TextView userNameTextView;
+    private ImageView userImageView;
     private ImageView addCommentImageView;
     private ImageView currentUserImageView;
     private RecyclerView commentRecyclerView;
@@ -75,6 +78,8 @@ public class PostActivity extends AppCompatActivity {
         dateTextView = findViewById(R.id.post_rec_time_textView);
         commentEditText = findViewById(R.id.post_rec_add_comment_editText);
         addCommentImageView = findViewById(R.id.post_rec_add_comment_imageView);
+        userNameTextView = findViewById(R.id.post_rec_username_textView);
+        userImageView = findViewById(R.id.post_rec_userimageView);
 
         commentRecyclerView = findViewById(R.id.comment_recyclerView);
         commentArrayList = new ArrayList<Message>();
@@ -100,8 +105,13 @@ public class PostActivity extends AppCompatActivity {
                 String title_text = task.getResult().getString("title");
                 titleTextView.setText(title_text);
                 String article_text = task.getResult().getString("article");
+                String user_id = task.getResult().getString("user_id");
                 articleTextView.setText(article_text);
 
+                //user infor
+                if(!TextUtils.isEmpty(user_id)){
+                    GetUserNameUtil.setusername(user_id, getApplicationContext(), userNameTextView, userImageView);
+                }
                 Date timestamp = task.getResult().getDate("timestamp");
                 if(timestamp != null){
                     Long milliseconds = timestamp.getTime();

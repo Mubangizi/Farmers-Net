@@ -74,7 +74,6 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
                 sendToPost(postId);
             }
         });
-
     }
 
     private void sendToPost(String postId) {
