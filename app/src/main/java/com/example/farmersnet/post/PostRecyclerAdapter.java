@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.farmersnet.messages.Likes;
 import com.example.farmersnet.utils.FirebaseUtil;
 import com.example.farmersnet.R;
 import com.example.farmersnet.utils.GetUserNameUtil;
@@ -90,59 +91,22 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
             }
         });
 
+        //instantiate likes
+        final Likes likes = new Likes(collectionReference, currentUserId, context);
+
         //ADD A LIKE
         postViewHolder.postLikeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                collectionReference.document(currentUserId).get().addOnCompleteListener((Activity) context, new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if(!task.getResult().exists()){
-                            Map<String, Object> likesMap = new HashMap<>();
-                            likesMap.put("timestamp", FieldValue.serverTimestamp());
-                            collectionReference.document(currentUserId).set(likesMap);
-                            Toast.makeText(context, "Liked Post", Toast.LENGTH_SHORT).show();
-                        }else {
-                            collectionReference.document(currentUserId).delete();
-                            Toast.makeText(context, "Unliked Post", Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
-                });
+                likes.addALike();
             }
         });
 
         //GET LIKES
-        collectionReference.document(currentUserId).addSnapshotListener((Activity) context, new EventListener<DocumentSnapshot>() {
-            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public void onEvent(@javax.annotation.Nullable DocumentSnapshot documentSnapshot, @javax.annotation.Nullable FirebaseFirestoreException e) {
-                if(documentSnapshot.exists()){
-
-                    postViewHolder.postLikeBtn.setImageDrawable(context.getDrawable(R.mipmap.ic_like_purple_icon));
-                }else {
-                    postViewHolder.postLikeBtn.setImageDrawable(context.getDrawable(R.mipmap.ic_like_dark_icon));
-                }
-            }
-
-        });
+        likes.getLikes(postViewHolder.postLikeBtn);
 
         //GET LIKES COUNT
-        collectionReference.addSnapshotListener((Activity) context, new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-
-                if(!queryDocumentSnapshots.isEmpty()){
-                    int count = queryDocumentSnapshots.size();
-                    postViewHolder.updatelikescount(count);
-
-                }else {
-                    postViewHolder.updatelikescount(0);
-                }
-            }
-        });
-
+        likes.getLikesCount(postViewHolder.postlikeTextView);
 
     }
 
@@ -175,6 +139,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
             userNameTextView = itemView.findViewById(R.id.post_rec_username_textView);
             userImageView = itemView.findViewById(R.id.post_rec_userimageView);
             postLikeBtn = itemView.findViewById(R.id.post_rec_like_icon);
+            postlikeTextView = itemView.findViewById(R.id.post_rec_like_textView);
 
         }
 
@@ -201,15 +166,6 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
                 dateTextView.setText(null);
             }
 
-        }
-
-        public void updatelikescount(int count){
-            postlikeTextView = itemView.findViewById(R.id.post_rec_like_textView);
-            if(count == 0){
-                postlikeTextView.setText("Likes");
-            }else {
-                postlikeTextView.setText(count+" Likes");
-            }
         }
 
     }
