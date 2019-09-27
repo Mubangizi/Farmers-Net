@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.farmersnet.utils.FirebaseUtil;
 import com.example.farmersnet.R;
+import com.example.farmersnet.utils.GetUserNameUtil;
 import com.example.farmersnet.utils.MyTimeUtil;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -71,7 +74,6 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
                 sendToPost(postId);
             }
         });
-
     }
 
     private void sendToPost(String postId) {
@@ -89,6 +91,8 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
         private TextView titleTextView;
         private TextView articleTextView;
         private TextView dateTextView;
+        private TextView userNameTextView;
+        private ImageView userImageView;
         private ImageView postImageView;
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -96,12 +100,17 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
             articleTextView = itemView.findViewById(R.id.post_rec_article_textView);
             dateTextView = itemView.findViewById(R.id.post_rec_time_textView);
             postImageView = itemView.findViewById(R.id.post_rec_imageView);
+            userNameTextView = itemView.findViewById(R.id.post_rec_username_textView);
+            userImageView = itemView.findViewById(R.id.post_rec_userimageView);
 
         }
 
         public void bind(Post post){
             titleTextView.setText(post.getTitle());
             articleTextView.setText(post.getArticle());
+            if(!TextUtils.isEmpty(post.getUser_id())){
+                GetUserNameUtil.setusername(post.getUser_id(), context, userNameTextView, userImageView);
+            }
             String imageValue = post.getImage();
             if(imageValue == null){
                 postImageView.setVisibility(View.GONE);

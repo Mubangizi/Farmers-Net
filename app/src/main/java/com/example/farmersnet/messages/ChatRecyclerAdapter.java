@@ -68,7 +68,7 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
 
         public void bind(Message message){
             messageTextView.setText(message.getText());
-            GetUserNameUtil.setusername(message.getUser_id(), null, messageSenderNameTextView);
+            GetUserNameUtil.setusername(message.getUser_id(), context, messageSenderNameTextView, null);
 
             //Message Time
             Date timestamp = message.getTimestamp();

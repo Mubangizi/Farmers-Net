@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.example.farmersnet.MainActivity;
 import com.example.farmersnet.R;
 import com.example.farmersnet.utils.FirebaseUtil;
+import com.example.farmersnet.utils.GetUserNameUtil;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -53,7 +54,9 @@ public class CreatePostFragment extends Fragment {
     private EditText articleEditText;
     private Button postBtn;
     private TextView addImageTextView;
+    private TextView userNameTextView;
     private ImageView postImageView;
+    private ImageView userImageView;
     private FirebaseFirestore firebaseFirestore;
     private StorageReference storageReference;
     private Uri postImageUri =null;
@@ -67,14 +70,20 @@ public class CreatePostFragment extends Fragment {
 
         titleEditText = view.findViewById(R.id.create_title_editText);
         articleEditText = view.findViewById(R.id.article_editText);
+        userNameTextView = view.findViewById(R.id.create_username_textView);
         postBtn = view.findViewById(R.id.post_button);
         addImageTextView = view.findViewById(R.id.addimage_textView);
         postImageView = view.findViewById(R.id.post_imageView);
+        userImageView = view.findViewById(R.id.create_user_profile_image);
         FirebaseUtil.openFireBaseReference("Posts", getActivity());
         firebaseFirestore = FirebaseUtil.firebaseFirestore;
         collectionReference = FirebaseUtil.collectionReference;
         storageReference  = FirebaseStorage.getInstance().getReference();
         user_id = FirebaseUtil.mAuth.getCurrentUser().getUid();
+
+        //settin username
+        GetUserNameUtil.setusername(user_id, view.getContext(), userNameTextView, userImageView);
+
 
         //getContext().getSupportActionBar().setTitle("Create Post");
 
@@ -194,5 +203,4 @@ public class CreatePostFragment extends Fragment {
             }
         }
     }
-
 }

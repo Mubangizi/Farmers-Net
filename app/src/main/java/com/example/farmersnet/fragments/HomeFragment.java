@@ -18,6 +18,7 @@ import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -28,7 +29,6 @@ public class HomeFragment extends Fragment {
     private RecyclerView homeRecyclerView;
     private PostRecyclerAdapter postRecyclerAdapter;
     private ArrayList<Post> postArrayList;
-    private FirebaseFirestore firebaseFirestore;
     private CollectionReference collectionReference;
     public HomeFragment() {
     }
@@ -44,7 +44,6 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         FirebaseUtil.openFireBaseReference("Posts", getActivity());
-        firebaseFirestore = FirebaseUtil.firebaseFirestore;
         collectionReference = FirebaseUtil.collectionReference;
         getposts();
         homeRecyclerView = view.findViewById(R.id.home_recyclerView);
@@ -57,7 +56,7 @@ public class HomeFragment extends Fragment {
     }
 
     public void getposts(){
-        collectionReference.orderBy("timestamp").addSnapshotListener(new EventListener<QuerySnapshot>() {
+        collectionReference.orderBy("timestamp", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                 if (!queryDocumentSnapshots.isEmpty()) {
