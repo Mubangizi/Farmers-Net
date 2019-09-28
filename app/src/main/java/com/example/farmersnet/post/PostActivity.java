@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -36,6 +37,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -62,6 +64,7 @@ public class PostActivity extends AppCompatActivity {
     private ImageView currentUserImageView;
     private ImageView postLikeBtn;
     private TextView postlikeTextView;
+    private TextView postcommentTextView;
     private RecyclerView commentRecyclerView;
     private ArrayList<Message> commentArrayList;
     private CommentRecyclerAdapter commentRecyclerAdapter;
@@ -86,6 +89,7 @@ public class PostActivity extends AppCompatActivity {
         userImageView = findViewById(R.id.post_rec_userimageView);
         postLikeBtn = findViewById(R.id.post_rec_like_icon);
         postlikeTextView = findViewById(R.id.post_rec_like_textView);
+        postcommentTextView = findViewById(R.id.post_rec_comment_textView);
 
         commentRecyclerView = findViewById(R.id.comment_recyclerView);
         commentArrayList = new ArrayList<Message>();
@@ -168,11 +172,13 @@ public class PostActivity extends AppCompatActivity {
             }
             }
         });
+
+        setCommentsCount();
     }
 
     private void getComments() {
 
-        collectionReference.document(postId).collection("comments").orderBy("timestamp").addSnapshotListener(new EventListener<QuerySnapshot>() {
+        collectionReference.document(postId).collection("comments").orderBy("timestamp", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
             if (!queryDocumentSnapshots.isEmpty()) {
@@ -212,5 +218,21 @@ public class PostActivity extends AppCompatActivity {
                         Toast.makeText(PostActivity.this, "Error: "+ e, Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    public void setCommentsCount(){
+        //GET COMMENTS COUNT
+        collectionReference.document(postId).collection("comments").addSnapshotListener((Activity) this, new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+
+                if(!queryDocumentSnapshots.isEmpty()) {
+                    int count = queryDocumentSnapshots.size();
+                    postcommentTextView.setText(count+" Comments");
+                }else{
+                    postcommentTextView.setText("Comment");
+                }
+            }
+        });
     }
 }

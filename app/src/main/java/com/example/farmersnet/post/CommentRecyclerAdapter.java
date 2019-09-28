@@ -26,7 +26,6 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
     public CommentRecyclerAdapter(ArrayList<Message> messageArrayLists){
         this.messageArrayLists= messageArrayLists;
     }
-    //todo: get comments from database
     @NonNull
     @Override
     public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -64,7 +63,7 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
 
         public void bind(Message message){
             commentTextView.setText(message.getText());
-            GetUserNameUtil.setusername(message.getUser_id(), context, commentUserName, null);
+            GetUserNameUtil.setusername(message.getUser_id(), context, commentUserName, commentUserImage);
 
             //Message Time
             Date timestamp = message.getTimestamp();

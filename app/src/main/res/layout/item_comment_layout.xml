@@ -33,9 +33,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="14dp"
+            android:layout_alignParentEnd="true"
             android:layout_marginTop="12dp"
-            android:layout_toEndOf="@+id/comment_username_textView"
+            android:layout_marginEnd="16dp"
             android:text="@string/date"
             android:textColor="@color/colorgreydark" />
 
@@ -53,13 +53,14 @@
             android:text="TextView"
             android:textColor="@color/colorBlack" />
 
-        <view
+        <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:layout_below="@+id/comment_textView"
             android:layout_marginStart="0dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
+            android:background="@color/colorgreydark"
             android:textColor="@color/colorBlack" />
 
 
