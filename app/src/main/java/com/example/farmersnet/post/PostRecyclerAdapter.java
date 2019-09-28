@@ -92,6 +92,13 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
             }
         });
 
+        postViewHolder.postCommentTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendToPost(postId);
+            }
+        });
+
 
         //instantiate likes
         final Likes likes = new Likes(likesCollectionReference, currentUserId, context);
