@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -135,6 +136,8 @@ public class PostActivity extends AppCompatActivity {
                     postImageView.setVisibility(View.GONE);
                 }else {
                     postImageView.setAdjustViewBounds(true);
+                    postImageView.requestLayout();
+                    postImageView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
                     Glide.with(PostActivity.this).load(image_uri).into(postImageView);
                 }
             }

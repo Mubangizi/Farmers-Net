@@ -181,14 +181,15 @@ public class CreatePostFragment extends Fragment {
     }
 
     private void startImageActivity() {
-        uploadImageUtil.checkPermission();
+        Intent intent = CropImage.activity(postImageUri).getIntent(getContext());
+        startActivityForResult(intent, CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         uploadImageUtil.setresult(requestCode, resultCode, data, postImageView);
-//        postImageView.setVisibility(View.VISIBLE);
+        postImageView.setVisibility(View.VISIBLE);
         postImageUri = uploadImageUtil.getImageUri();
     }
 }
