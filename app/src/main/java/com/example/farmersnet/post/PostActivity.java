@@ -6,9 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.farmersnet.R;
 import com.example.farmersnet.messages.ChatActivity;
+import com.example.farmersnet.messages.Likes;
 import com.example.farmersnet.messages.Message;
 import com.example.farmersnet.utils.FirebaseUtil;
 import com.example.farmersnet.utils.GetUserNameUtil;
@@ -34,6 +37,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -58,6 +62,9 @@ public class PostActivity extends AppCompatActivity {
     private ImageView userImageView;
     private ImageView addCommentImageView;
     private ImageView currentUserImageView;
+    private ImageView postLikeBtn;
+    private TextView postlikeTextView;
+    private TextView postCommentTextView;
     private RecyclerView commentRecyclerView;
     private ArrayList<Message> commentArrayList;
     private CommentRecyclerAdapter commentRecyclerAdapter;
@@ -80,6 +87,10 @@ public class PostActivity extends AppCompatActivity {
         addCommentImageView = findViewById(R.id.post_rec_add_comment_imageView);
         userNameTextView = findViewById(R.id.post_rec_username_textView);
         userImageView = findViewById(R.id.post_rec_userimageView);
+        postLikeBtn = findViewById(R.id.post_rec_like_icon);
+        postlikeTextView = findViewById(R.id.post_rec_like_textView);
+        postCommentTextView = findViewById(R.id.post_rec_comment_textView);
+        currentUserImageView = findViewById(R.id.post_rec_current_user_image);
 
         commentRecyclerView = findViewById(R.id.comment_recyclerView);
         commentArrayList = new ArrayList<Message>();
@@ -90,7 +101,12 @@ public class PostActivity extends AppCompatActivity {
         postList = FirebaseUtil.postArrayList;
         mAuth = FirebaseAuth.getInstance();
         currentUserId = mAuth.getCurrentUser().getUid();
+        //instantiate likes
+        final CollectionReference likescollectionReference = firebaseFirestore.collection("Posts/" + postId + "/Likes");
+        final Likes likes = new Likes(likescollectionReference, currentUserId, PostActivity.this);
 
+        //Current User Image
+        GetUserNameUtil.setusername(currentUserId, getApplicationContext(), null, currentUserImageView);
 
         //Recycler adapter
         commentRecyclerAdapter = new CommentRecyclerAdapter(commentArrayList);
@@ -126,38 +142,57 @@ public class PostActivity extends AppCompatActivity {
                     postImageView.setVisibility(View.GONE);
                 }else {
                     postImageView.setAdjustViewBounds(true);
+                    postImageView.requestLayout();
+                    postImageView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
                     Glide.with(PostActivity.this).load(image_uri).into(postImageView);
                 }
             }
         });
 
+
+        //ADD A LIKE
+        postLikeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                likes.addALike();
+            }
+        });
+
+        //GET LIKES
+        likes.getLikes(postLikeBtn);
+
+        //GET LIKES COUNT
+        likes.getLikesCount(postlikeTextView);
+
         //Add a comment
         addCommentImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String commentText = commentEditText.getText().toString();
-                if(!TextUtils.isEmpty(commentText)){
-                    addComment(commentText, currentUserId);
-                }
+            String commentText = commentEditText.getText().toString();
+            if(!TextUtils.isEmpty(commentText)){
+                addComment(commentText, currentUserId);
+            }
             }
         });
+
+        setCommentsCount();
     }
 
     private void getComments() {
 
-        collectionReference.document(postId).collection("comments").orderBy("timestamp").addSnapshotListener(new EventListener<QuerySnapshot>() {
+        collectionReference.document(postId).collection("comments").orderBy("timestamp", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                if (!queryDocumentSnapshots.isEmpty()) {
-                    for (@NonNull DocumentChange doc : queryDocumentSnapshots.getDocumentChanges()) {
+            if (!queryDocumentSnapshots.isEmpty()) {
+                for (@NonNull DocumentChange doc : queryDocumentSnapshots.getDocumentChanges()) {
 
-                        if(doc.getType()== DocumentChange.Type.ADDED){
-                            Message message = doc.getDocument().toObject(Message.class);
-                            commentArrayList.add(message);
-                            commentRecyclerAdapter.notifyDataSetChanged();
-                        }
+                    if(doc.getType()== DocumentChange.Type.ADDED){
+                        Message message = doc.getDocument().toObject(Message.class);
+                        commentArrayList.add(message);
+                        commentRecyclerAdapter.notifyDataSetChanged();
                     }
                 }
+            }
             }
         });
     }
@@ -185,5 +220,25 @@ public class PostActivity extends AppCompatActivity {
                         Toast.makeText(PostActivity.this, "Error: "+ e, Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    public void setCommentsCount(){
+        //GET COMMENTS COUNT
+        collectionReference.document(postId).collection("comments").addSnapshotListener((Activity) this, new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+
+                if(!queryDocumentSnapshots.isEmpty()) {
+                    int count = queryDocumentSnapshots.size();
+                    if(count==1){
+                        postCommentTextView.setText(count+" Comment");
+                    }else {
+                        postCommentTextView.setText(count+" Comments");
+                    }
+                }else{
+                    postCommentTextView.setText("Comment");
+                }
+            }
+        });
     }
 }

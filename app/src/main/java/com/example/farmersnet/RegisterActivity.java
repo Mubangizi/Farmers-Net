@@ -22,7 +22,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.farmersnet.chatRooms.CreateChatRoomActivity;
 import com.example.farmersnet.utils.FirebaseUtil;
+import com.example.farmersnet.utils.UploadImageUtil;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -55,6 +57,7 @@ public class RegisterActivity extends AppCompatActivity {
     private ImageView profileImage;
     private String user_id;
     private Uri profileImageUri;
+    private UploadImageUtil uploadImageUtil;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -68,6 +71,7 @@ public class RegisterActivity extends AppCompatActivity {
         regInterestsText =findViewById(R.id.reg_interests);
         regButton = findViewById(R.id.reg_button);
         profileImage = findViewById(R.id.reg_profile_image);
+        uploadImageUtil = new UploadImageUtil(RegisterActivity.this);
 
         FirebaseUtil.openFireBaseReference("Users", this);
         mAuth = FirebaseUtil.mAuth;
@@ -91,16 +95,7 @@ public class RegisterActivity extends AppCompatActivity {
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
-                    if (ContextCompat.checkSelfPermission(RegisterActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-                        //ask for permission
-                        ActivityCompat.requestPermissions(RegisterActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-                    }else {
-                        startCropActivity();
-                    }
-                }else {
-                    startCropActivity();
-                }
+                startImageActivity();
             }
         });
 
@@ -170,10 +165,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    private void startCropActivity() {
-        CropImage.activity()
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .start(this);
+    private void startImageActivity() {
+        uploadImageUtil.checkPermission();
     }
 
     private void saveUserinfo(String fname, String lname, String email, String dob, String about, String interest, String downloadUri) {
@@ -214,15 +207,7 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            if (resultCode == RESULT_OK) {
-                profileImageUri = result.getUri();
-                profileImage.setImageURI(profileImageUri);
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Exception error = result.getError();
-            }
-        }
+        uploadImageUtil.setresult(requestCode, resultCode,data, profileImage);
+        profileImageUri = uploadImageUtil.getImageUri();
     }
 }

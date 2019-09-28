@@ -36,7 +36,11 @@ public class GetUserNameUtil {
                     String fname = task.getResult().getString("fname");
                     String lname = task.getResult().getString("lname");
                     String downloadUri = task.getResult().getString("profile_image");
-                    textView.setText(fname+" "+ lname);
+
+                    if(textView != null){
+                        textView.setText(fname+" "+ lname);
+                    }
+
                     if(userImageView != null)
                         Glide.with(context).load(downloadUri).into(userImageView);
                 }
