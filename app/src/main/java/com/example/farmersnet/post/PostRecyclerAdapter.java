@@ -76,7 +76,8 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
         final String postId = postArrayList.get(i).PostId;
         final Post post = postArrayList.get(i);
         postViewHolder.bind(post);
-        final CollectionReference collectionReference = firebaseFirestore.collection("Posts/" + postId + "/Likes");
+        final CollectionReference likesCollectionReference = firebaseFirestore.collection("Posts/" + postId + "/Likes");
+        final CollectionReference commentCollectionReference = firebaseFirestore.collection("Posts/" + postId + "/comments");
 
         postViewHolder.postImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +94,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
 
 
         //instantiate likes
-        final Likes likes = new Likes(collectionReference, currentUserId, context);
+        final Likes likes = new Likes(likesCollectionReference, currentUserId, context);
         //ADD A LIKE
         postViewHolder.postLikeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,6 +106,24 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
         likes.getLikes(postViewHolder.postLikeBtn);
         //GET LIKES COUNT
         likes.getLikesCount(postViewHolder.postlikeTextView);
+
+        //GET COMMENTS COUNT
+        commentCollectionReference.addSnapshotListener((Activity) context, new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+
+                if(!queryDocumentSnapshots.isEmpty()) {
+                    int count = queryDocumentSnapshots.size();
+                    if(count==1){
+                        postViewHolder.postCommentTextView.setText(count+" Comment");
+                    }else {
+                        postViewHolder.postCommentTextView.setText(count+" Comments");
+                    }
+                }else{
+                    postViewHolder.postCommentTextView.setText("Comment");
+                }
+            }
+        });
 
     }
 
@@ -128,6 +147,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
         private ImageView postImageView;
         private ImageView postLikeBtn;
         private TextView postlikeTextView;
+        private TextView postCommentTextView;
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.post_rec_title_textView);
@@ -138,6 +158,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
             userImageView = itemView.findViewById(R.id.post_rec_userimageView);
             postLikeBtn = itemView.findViewById(R.id.post_rec_like_icon);
             postlikeTextView = itemView.findViewById(R.id.post_rec_like_textView);
+            postCommentTextView = itemView.findViewById(R.id.post_rec_comment_textView);
 
         }
 

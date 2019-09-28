@@ -64,7 +64,7 @@ public class PostActivity extends AppCompatActivity {
     private ImageView currentUserImageView;
     private ImageView postLikeBtn;
     private TextView postlikeTextView;
-    private TextView postcommentTextView;
+    private TextView postCommentTextView;
     private RecyclerView commentRecyclerView;
     private ArrayList<Message> commentArrayList;
     private CommentRecyclerAdapter commentRecyclerAdapter;
@@ -89,7 +89,8 @@ public class PostActivity extends AppCompatActivity {
         userImageView = findViewById(R.id.post_rec_userimageView);
         postLikeBtn = findViewById(R.id.post_rec_like_icon);
         postlikeTextView = findViewById(R.id.post_rec_like_textView);
-        postcommentTextView = findViewById(R.id.post_rec_comment_textView);
+        postCommentTextView = findViewById(R.id.post_rec_comment_textView);
+        currentUserImageView = findViewById(R.id.post_rec_current_user_image);
 
         commentRecyclerView = findViewById(R.id.comment_recyclerView);
         commentArrayList = new ArrayList<Message>();
@@ -104,7 +105,8 @@ public class PostActivity extends AppCompatActivity {
         final CollectionReference likescollectionReference = firebaseFirestore.collection("Posts/" + postId + "/Likes");
         final Likes likes = new Likes(likescollectionReference, currentUserId, PostActivity.this);
 
-
+        //Current User Image
+        GetUserNameUtil.setusername(currentUserId, getApplicationContext(), null, currentUserImageView);
 
         //Recycler adapter
         commentRecyclerAdapter = new CommentRecyclerAdapter(commentArrayList);
@@ -228,9 +230,13 @@ public class PostActivity extends AppCompatActivity {
 
                 if(!queryDocumentSnapshots.isEmpty()) {
                     int count = queryDocumentSnapshots.size();
-                    postcommentTextView.setText(count+" Comments");
+                    if(count==1){
+                        postCommentTextView.setText(count+" Comment");
+                    }else {
+                        postCommentTextView.setText(count+" Comments");
+                    }
                 }else{
-                    postcommentTextView.setText("Comment");
+                    postCommentTextView.setText("Comment");
                 }
             }
         });
