@@ -180,7 +180,7 @@ public class PostActivity extends AppCompatActivity {
 
     private void getComments() {
 
-        collectionReference.document(postId).collection("comments").orderBy("timestamp", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        collectionReference.document(postId).collection("comments").orderBy("timestamp", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
             if (!queryDocumentSnapshots.isEmpty()) {
