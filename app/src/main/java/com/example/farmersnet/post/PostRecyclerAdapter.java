@@ -91,9 +91,9 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
             }
         });
 
+
         //instantiate likes
         final Likes likes = new Likes(collectionReference, currentUserId, context);
-
         //ADD A LIKE
         postViewHolder.postLikeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,10 +101,8 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
                 likes.addALike();
             }
         });
-
         //GET LIKES
         likes.getLikes(postViewHolder.postLikeBtn);
-
         //GET LIKES COUNT
         likes.getLikesCount(postViewHolder.postlikeTextView);
 
@@ -163,7 +161,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
                 String timeplace = MyTimeUtil.telltime(milliseconds);
                 dateTextView.setText(timeplace);
             }else {
-                dateTextView.setText(null);
+                dateTextView.setText("Just now");
             }
 
         }

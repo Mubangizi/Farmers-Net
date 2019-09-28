@@ -24,8 +24,11 @@ import android.widget.Toast;
 
 import com.example.farmersnet.MainActivity;
 import com.example.farmersnet.R;
+import com.example.farmersnet.chatRooms.CreateChatRoomActivity;
 import com.example.farmersnet.utils.FirebaseUtil;
 import com.example.farmersnet.utils.GetUserNameUtil;
+import com.example.farmersnet.utils.LoadingScreenUtil;
+import com.example.farmersnet.utils.UploadImageUtil;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -59,8 +62,9 @@ public class CreatePostFragment extends Fragment {
     private ImageView userImageView;
     private FirebaseFirestore firebaseFirestore;
     private StorageReference storageReference;
-    private Uri postImageUri =null;
+    private Uri postImageUri;
     private CollectionReference collectionReference;
+    private UploadImageUtil uploadImageUtil;
     private String user_id;
 
     @Nullable
@@ -79,28 +83,18 @@ public class CreatePostFragment extends Fragment {
         firebaseFirestore = FirebaseUtil.firebaseFirestore;
         collectionReference = FirebaseUtil.collectionReference;
         storageReference  = FirebaseStorage.getInstance().getReference();
+        uploadImageUtil = new UploadImageUtil(getActivity());
         user_id = FirebaseUtil.mAuth.getCurrentUser().getUid();
+        LoadingScreenUtil.createscreen("Creating", getContext());
 
-        //settin username
+        //setting username
         GetUserNameUtil.setusername(user_id, view.getContext(), userNameTextView, userImageView);
-
-
-        //getContext().getSupportActionBar().setTitle("Create Post");
 
 
         addImageTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
-                    if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getContext()), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-                        //ask for permission
-                        ActivityCompat.requestPermissions(Objects.requireNonNull(getActivity()), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-                    }else {
-                        startCropActivity();
-                    }
-                }else {
-                    startCropActivity();
-                }
+                startImageActivity();
             }
         });
 
@@ -110,11 +104,14 @@ public class CreatePostFragment extends Fragment {
                 final String title_data = titleEditText.getText().toString();
                 final String article_data = articleEditText.getText().toString();
                 if(!TextUtils.isEmpty( title_data) && !TextUtils.isEmpty(article_data) ){
-
+                    //show loading screen
+                    LoadingScreenUtil.dialog.show();
                     if (postImageUri != null){
                         String randomName = UUID.randomUUID().toString();
                         final StorageReference postImagePath = storageReference.child("Post_Images/"+randomName+".jpg");
+
                         UploadTask uploadTask = postImagePath.putFile(postImageUri);
+
                         final Task<Uri> UriTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                             @Override
                             public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
@@ -146,6 +143,7 @@ public class CreatePostFragment extends Fragment {
     }
 
     private void postdata(String title_data, String article_data, String downloadUri){
+
         final Map<String, Object> postMap = new HashMap<>();
         postMap.put("title", title_data);
         postMap.put("article", article_data);
@@ -163,6 +161,7 @@ public class CreatePostFragment extends Fragment {
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d(TAG, "DocumentSnapshot added with ID:" + documentReference.getId());
                         Toast.makeText(getContext(), "Post Created", Toast.LENGTH_SHORT).show();
+                        LoadingScreenUtil.dialog.dismiss();
                         sendToMain();
                     }
                 })
@@ -170,6 +169,7 @@ public class CreatePostFragment extends Fragment {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         postBtn.setEnabled(true);
+                        LoadingScreenUtil.dialog.dismiss();
                         Log.w(TAG, "Error adding document", e);
                     }
                 });
@@ -180,27 +180,15 @@ public class CreatePostFragment extends Fragment {
         startActivity(mainIntent);
     }
 
-    private void startCropActivity() {
-        CropImage.activity()
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .start(getActivity());
+    private void startImageActivity() {
+        uploadImageUtil.checkPermission();
     }
-
-    //TODO Image url not working
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            if (resultCode == RESULT_OK) {
-                postImageUri = result.getUri();
-                postImageView.setImageURI(postImageUri);
-                postImageView.setVisibility(View.VISIBLE);
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Exception error = result.getError();
-            }
-        }
+        uploadImageUtil.setresult(requestCode, resultCode, data, postImageView);
+//        postImageView.setVisibility(View.VISIBLE);
+        postImageUri = uploadImageUtil.getImageUri();
     }
 }
