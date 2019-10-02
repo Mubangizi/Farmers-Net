@@ -85,7 +85,8 @@ public class CreatePostFragment extends Fragment {
         storageReference  = FirebaseStorage.getInstance().getReference();
         uploadImageUtil = new UploadImageUtil(getActivity());
         user_id = FirebaseUtil.mAuth.getCurrentUser().getUid();
-        LoadingScreenUtil.createscreen("Creating", getContext());
+        TAG = "CreatePostFragment";
+        LoadingScreenUtil.createscreen("Posting", getContext());
 
         //setting username
         GetUserNameUtil.setusername(user_id, view.getContext(), userNameTextView, userImageView);

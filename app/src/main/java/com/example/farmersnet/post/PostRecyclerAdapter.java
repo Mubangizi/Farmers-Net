@@ -54,7 +54,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
 
     public PostRecyclerAdapter(ArrayList<Post> postArrayList){
 
-        //FirebaseUtil.openFireBaseReference("Posts");
+        //FirebaseUtil.openFireBaseReference("Posts", ge);
         this.postArrayList = postArrayList;
         mAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
