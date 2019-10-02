@@ -54,11 +54,14 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
 
     public PostRecyclerAdapter(ArrayList<Post> postArrayList){
 
-        //FirebaseUtil.openFireBaseReference("Posts");
+        //FirebaseUtil.openFireBaseReference("Posts", ge);
         this.postArrayList = postArrayList;
-        mAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
-        currentUserId = mAuth.getCurrentUser().getUid();
+
+        mAuth = FirebaseAuth.getInstance();
+        if(mAuth.getCurrentUser() != null){
+            currentUserId = mAuth.getCurrentUser().getUid();
+        }
 
     }
     @NonNull
