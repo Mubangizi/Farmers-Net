@@ -49,12 +49,12 @@ public class HomeFragment extends Fragment {
         FirebaseUtil.openFireBaseReference("Posts", getActivity());
         collectionReference = FirebaseUtil.collectionReference;
         getposts();
+        FirebaseUtil.attachListener();
         homeRecyclerView = view.findViewById(R.id.home_recyclerView);
         postArrayList = FirebaseUtil.postArrayList;
         postRecyclerAdapter = new PostRecyclerAdapter(postArrayList);
         homeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL, false));
         homeRecyclerView.setAdapter(postRecyclerAdapter);
-        FirebaseUtil.attachListener();
 
         return view;
     }
