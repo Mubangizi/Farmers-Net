@@ -29,7 +29,7 @@
                 android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/post_rec_title_textView"
+                app:layout_constraintTop_toBottomOf="@+id/post_rec_userimageView"
                 app:srcCompat="@drawable/rectangle" />
 
             <ImageView
@@ -136,8 +136,10 @@
                 android:id="@+id/post_rec_comment_textView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:text="@string/comment"
                 android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/post_rec_advise_textView"
                 app:layout_constraintStart_toEndOf="@+id/post_rec_like_textView"
                 app:layout_constraintTop_toBottomOf="@+id/post_rec_comment_icon" />
