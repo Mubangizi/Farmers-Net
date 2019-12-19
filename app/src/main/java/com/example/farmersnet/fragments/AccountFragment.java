@@ -7,6 +7,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -15,12 +17,20 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.farmersnet.R;
 import com.example.farmersnet.RegisterActivity;
+import com.example.farmersnet.users.User;
 import com.example.farmersnet.utils.FirebaseUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class AccountFragment extends Fragment {
 
@@ -36,6 +46,7 @@ public class AccountFragment extends Fragment {
     private CollectionReference collectionReference;
     private FirebaseAuth mAuth;
     private String user_id;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -88,4 +99,5 @@ public class AccountFragment extends Fragment {
         });
         return view;
     }
+
 }
