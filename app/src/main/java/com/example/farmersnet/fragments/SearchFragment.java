@@ -6,13 +6,19 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.farmersnet.R;
 import com.example.farmersnet.users.User;
+import com.example.farmersnet.users.UserRecyclerAdapter;
+import com.example.farmersnet.utils.FirebaseUtil;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -22,9 +28,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
+
 public class SearchFragment extends Fragment {
 
     private ArrayList <User>listUsers;
+    private CollectionReference collectionReference;
+    private FirebaseAuth mAuth;
+    private String user_id;
+    private ListView usersListView;
+    private UserRecyclerAdapter userRecyclerAdapter;
 
 
     @Nullable
@@ -32,7 +45,10 @@ public class SearchFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_usersearch_layout, null);
 
-
+        FirebaseUtil.openFireBaseReference("Users", getActivity());
+        collectionReference = FirebaseUtil.collectionReference;
+        mAuth = FirebaseUtil.mAuth;
+        user_id = mAuth.getCurrentUser().getUid();
 
 
         return view;
