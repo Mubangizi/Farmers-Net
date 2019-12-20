@@ -4,14 +4,18 @@ package com.example.farmersnet.fragments;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.farmersnet.R;
 import com.example.farmersnet.users.User;
@@ -34,10 +38,9 @@ public class SearchFragment extends Fragment {
 
     private ArrayList <User>listUsers;
     private CollectionReference collectionReference;
-    private FirebaseAuth mAuth;
-    private String user_id;
-    private ListView usersListView;
+    private RecyclerView usersRecView;
     private UserRecyclerAdapter userRecyclerAdapter;
+    private LinearLayoutManager linearLayoutManager;
 
 
     @Nullable
@@ -47,10 +50,6 @@ public class SearchFragment extends Fragment {
 
         FirebaseUtil.openFireBaseReference("Users", getActivity());
         collectionReference = FirebaseUtil.collectionReference;
-        mAuth = FirebaseUtil.mAuth;
-        user_id = mAuth.getCurrentUser().getUid();
-
-
         return view;
     }
 
@@ -76,7 +75,7 @@ public class SearchFragment extends Fragment {
                 });
     }
 
-    private void searchUsers(String searchText) {
+    public void searchUsers(String searchText) {
         if (searchText.length() > 0)
             searchText = searchText.substring(0, 1).toUpperCase() + searchText.substring(1).toLowerCase();
 
@@ -91,33 +90,21 @@ public class SearchFragment extends Fragment {
 
     private void updateListUsers(ArrayList<User> listUsers) {
 
-        // Sort the list by date
-        Collections.sort(listUsers, new Comparator<User>() {
-            @Override
-            public int compare(User o1, User o2) {
-                int res = -1;
-                if (o1.getDate() > (o2.getDate())) {
-                    res = 1;
-                }
-                return res;
-            }
-        });
-
-        userRecyclerAdapter = new UserRecyclerAdapter(listUsers, InvitationActivity.this, this);
-        rvUsers.setNestedScrollingEnabled(false);
-        rvUsers.setAdapter(userRecyclerAdapter);
-        layoutManagerUser = new LinearLayoutManager(getApplicationContext());
-        rvUsers.setLayoutManager(layoutManagerUser);
+        userRecyclerAdapter = new UserRecyclerAdapter(listUsers);
+        usersRecView.setNestedScrollingEnabled(false);
+        usersRecView.setAdapter(userRecyclerAdapter);
+        linearLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL, false);
+        usersRecView.setLayoutManager(linearLayoutManager);
         userRecyclerAdapter.notifyDataSetChanged();
     }
 
-
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
 
-        MenuItem search = menu.findItem(R.id.action_search);
+        MenuItem search = menu.findItem(R.id.action_search_users);
         SearchView searchView = (SearchView) search.getActionView();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -137,7 +124,6 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        return true;
     }
 
 }
