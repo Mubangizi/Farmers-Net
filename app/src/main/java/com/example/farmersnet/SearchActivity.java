@@ -9,12 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -93,7 +90,7 @@ public class SearchActivity extends AppCompatActivity {
             emailTextView.setText(user.getEmail());
 
             String imageValue = user.getProfile_image();
-//            Glide.with(SearchActivity.this).load(imageValue).into(userImageView);
+            Glide.with(SearchActivity.this).load(imageValue).into(userImageView);
 
         }
 
