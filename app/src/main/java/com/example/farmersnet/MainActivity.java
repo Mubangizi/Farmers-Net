@@ -3,14 +3,12 @@ package com.example.farmersnet;
 import android.content.Intent;
 import androidx.annotation.NonNull;
 
-import com.example.farmersnet.fragments.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.farmersnet.fragments.AccountFragment;
@@ -43,27 +41,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
-
-        MenuItem search = menu.findItem(R.id.action_search_users);
-        SearchView searchView = (SearchView) search.getActionView();
-        final Fragment fragment = new SearchFragment();
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                //Toast.makeText(MainActivity.this, "SEARCH " + query, Toast.LENGTH_LONG).show();
-                //((SearchFragment) fragment).searchUsers(query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                //Toast.makeText(MainActivity.this, "SEARCH " + newText, Toast.LENGTH_LONG).show();
-                //((SearchFragment) fragment).searchUsers(newText);
-                return false;
-            }
-        });
         return true;
     }
 
@@ -85,7 +62,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 FirebaseUtil.detachListener();
                 return true;
             case R.id.action_search_users:
-                loadFragment(new SearchFragment());
+                Intent searchIntent = new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(searchIntent);
                 return true;
 
             default:
