@@ -78,6 +78,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private void getUsers(String user_name) {
         Query query = collectionReference.whereEqualTo("lname",user_name);
+
         FirestoreRecyclerOptions<User> response = new FirestoreRecyclerOptions.Builder<User>()
                 .setQuery(query, User.class)
                 .build();
