@@ -2,9 +2,10 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-
     <item
-        android:id="@+id/action_search_item"
+        android:id="@+id/action_search_users_item"
         android:title="@string/searchUsers"
         app:showAsAction="always"
-        android:icon="@android:drawable/ic_menu_search"/></menu>
+        app:actionViewClass="android.widget.SearchView"
+        android:icon="@android:drawable/ic_menu_search"/>
+</menu>
