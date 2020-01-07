@@ -2,6 +2,7 @@ package com.example.farmersnet;
 
 import android.content.Intent;
 import androidx.annotation.NonNull;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,24 +29,24 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         BottomNavigationView navigationView = findViewById(R.id.bottomNavView);
         navigationView.setOnNavigationItemSelectedListener(this);
 
-        loadFragment(new HomeFragment());
-
-
+        //loading a fragment
+        try{
+            int intentFragment = getIntent().getExtras().getInt("fragNumber");
+            switch (intentFragment){
+                case 2:
+                    loadFragment(new ChatRoomFragment());
+                    break;
+                case 3:
+                    loadFragment(new AccountFragment());
+                    break;
+                default:
+                    loadFragment(new HomeFragment());
+            }
+        }catch (NullPointerException e){
+            loadFragment(new HomeFragment());
+        }
 
     }
-
-//    private void startFrament(String fragName) {
-//
-//        switch (fragName){
-//            case "chatRoom":
-//                loadFragment(new ChatRoomFragment());
-//            case "profile":
-//                loadFragment(new AccountFragment());
-//            default:
-//                loadFragment(new HomeFragment());
-//
-//        }
-//    }
 
 
     private void sendToCreatePost() {
@@ -74,6 +75,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                             }
                         });
                 FirebaseUtil.detachListener();
+                return true;
+            case R.id.action_search_users:
+                Intent searchIntent = new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(searchIntent);
                 return true;
 
             default:
