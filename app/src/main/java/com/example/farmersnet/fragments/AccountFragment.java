@@ -64,7 +64,11 @@ public class AccountFragment extends Fragment {
         FirebaseUtil.openFireBaseReference("Users", getActivity());
         collectionReference = FirebaseUtil.collectionReference;
         mAuth = FirebaseUtil.mAuth;
-        user_id = mAuth.getCurrentUser().getUid();
+        try {
+            user_id = getActivity().getIntent().getExtras().getString("userId");
+        }catch (NullPointerException e){
+            user_id = mAuth.getCurrentUser().getUid();
+        }
 
         collectionReference.document(user_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override

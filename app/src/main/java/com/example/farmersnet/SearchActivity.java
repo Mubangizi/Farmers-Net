@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -86,11 +87,20 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void updatelist(FirestoreRecyclerOptions<User> response){
-        FirestoreRecyclerAdapter<User, UserViewHolder> firestoreRecyclerAdapter = new FirestoreRecyclerAdapter<User, UserViewHolder>(response) {
+        final FirestoreRecyclerAdapter<User, UserViewHolder> firestoreRecyclerAdapter = new FirestoreRecyclerAdapter<User, UserViewHolder>(response) {
             @Override
-            protected void onBindViewHolder(@NonNull UserViewHolder holder, int position, @NonNull User model) {
+            protected void onBindViewHolder(@NonNull UserViewHolder holder, final int position, @NonNull User model) {
+
+                final String userId = getSnapshots().getSnapshot(position).getId();
 
                 holder.bind(model);
+                holder.userImageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        sendToAccount(userId);
+                    }
+                });
+
             }
 
             @NonNull
@@ -134,6 +144,15 @@ public class SearchActivity extends AppCompatActivity {
         });
 
         return true;
+    }
+
+    private void sendToAccount(String userId) {
+        Intent accIntent = new Intent(context, MainActivity.class);
+        Bundle extras = new Bundle();
+        extras.putInt("fragNumber", 3);
+        extras.putString("userId", userId);
+        accIntent.putExtras(extras);
+        startActivity(accIntent);
     }
 
 }

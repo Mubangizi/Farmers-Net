@@ -7,8 +7,4 @@ public class PostID {
         this.PostId = id;
         return (T)this;
     }
-//    public withId(String id){
-//        this.PostId = id;
-//        return ;
-//    }
 }

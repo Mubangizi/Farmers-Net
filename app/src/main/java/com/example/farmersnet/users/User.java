@@ -1,6 +1,8 @@
 package com.example.farmersnet.users;
 
-public class User {
+import com.example.farmersnet.post.PostID;
+
+public class User extends PostID{
 
     private String fname;
     private String lname;

@@ -29,7 +29,22 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         BottomNavigationView navigationView = findViewById(R.id.bottomNavView);
         navigationView.setOnNavigationItemSelectedListener(this);
 
-        loadFragment(new HomeFragment());
+        //loading a fragment
+        try{
+            int intentFragment = getIntent().getExtras().getInt("fragNumber");
+            switch (intentFragment){
+                case 2:
+                    loadFragment(new ChatRoomFragment());
+                    break;
+                case 3:
+                    loadFragment(new AccountFragment());
+                    break;
+                default:
+                    loadFragment(new HomeFragment());
+            }
+        }catch (NullPointerException e){
+            loadFragment(new HomeFragment());
+        }
 
     }
 
