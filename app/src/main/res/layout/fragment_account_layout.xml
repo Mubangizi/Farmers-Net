@@ -23,8 +23,8 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_userimageView"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="65dp"
+                android:layout_height="56dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:src="@drawable/ellipse"
@@ -41,7 +41,7 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/username"
                 android:textColor="@color/colorWhite"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/profile_userimageView"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -87,6 +87,17 @@
                 android:text="Follow"
                 android:background="@drawable/buttonborder"
                 android:textColor="@color/colorWhite"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/profile_interest_textView"
+                app:layout_constraintTop_toBottomOf="@+id/profile_about_textView" />
+
+            <TextView
+                android:id="@+id/following_textView"
+                android:layout_width="65dp"
+                android:layout_height="24dp"
+                android:text="@string/following"
+                android:textColor="#FFFFFF"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/profile_interest_textView"

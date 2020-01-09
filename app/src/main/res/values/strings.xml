@@ -46,4 +46,6 @@
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim ex ipsum maxime quos. Blanditiis, dolores ea enim exercitationem expedita explicabo harum itaque iure modi, neque nobis odit officiis quibusdam similique.</string>
     <string name="add_comment">Add a Comment...</string>
     <string name="searchUsers">Search Users</string>
+    <string name="following">Following</string>
+    <string name="follow">Follow</string>
 </resources>
