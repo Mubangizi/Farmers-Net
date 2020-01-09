@@ -74,9 +74,9 @@ public class AccountFragment extends Fragment {
         }catch (NullPointerException e){
             user_id = currentUserId;
         }
-        UserFollowing.setupUser(getActivity());
-//        UserFollowing.checkIfFollowing(user_id, followBtn);
-        checkIfFollowing(user_id, followBtn);
+        UserFollowing.setupUser(getActivity(), collectionReference.document(currentUserId).collection("following"), user_id);
+        UserFollowing.checkIfFollowing(followBtn);
+//        checkIfFollowing(user_id, followBtn);
 
         collectionReference.document(user_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -113,8 +113,8 @@ public class AccountFragment extends Fragment {
         followBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                UserFollowing.followUser(followBtn);
-                followUser();
+                UserFollowing.followUser(followBtn);
+//                followUser();
             }
         });
 
@@ -127,39 +127,39 @@ public class AccountFragment extends Fragment {
         getActivity().getIntent().removeExtra("userId");
     }
 //
-    public void checkIfFollowing(String userid, final Button followBtn){
-        if(currentUserId ==userid){
-            followBtn.setVisibility(View.GONE);
-            followingTextView.setVisibility(View.GONE);
-        }else {
-            collectionReference.document(currentUserId).get().addOnCompleteListener((Activity) getContext(), new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.getResult().exists()) {
-                        followBtn.setVisibility(View.GONE);
-                    }
-                }
-            });
-        }
-    }
-
-    public void followUser(){
-        collectionReference.document(currentUserId).get().addOnCompleteListener((Activity) getContext(), new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(!task.getResult().exists()){
-                    Map<String, Object> followMap = new HashMap<>();
-                    followMap.put("timestamp", FieldValue.serverTimestamp());
-                    collectionReference.document(currentUserId).set(followMap);
-                    followBtn.setVisibility(View.GONE);
-                    Toast.makeText(getContext(), "Followed", Toast.LENGTH_SHORT).show();
-                }else {
-                    collectionReference.document(currentUserId).delete();
-                    Toast.makeText(getContext(), "Unfollowed", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
-    }
+//    public void checkIfFollowing(String userid, final Button followBtn){
+//        if(currentUserId ==userid){
+//            followBtn.setVisibility(View.GONE);
+//            followingTextView.setVisibility(View.GONE);
+//        }else {
+//            collectionReference.document(currentUserId).get().addOnCompleteListener((Activity) getContext(), new OnCompleteListener<DocumentSnapshot>() {
+//                @Override
+//                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                    if (task.getResult().exists()) {
+//                        followBtn.setVisibility(View.GONE);
+//                    }
+//                }
+//            });
+//        }
+//    }
+//
+//    public void followUser(){
+//        collectionReference.document(currentUserId).get().addOnCompleteListener((Activity) getContext(), new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if(!task.getResult().exists()){
+//                    Map<String, Object> followMap = new HashMap<>();
+//                    followMap.put("timestamp", FieldValue.serverTimestamp());
+//                    collectionReference.document(currentUserId).set(followMap);
+//                    followBtn.setVisibility(View.GONE);
+//                    Toast.makeText(getContext(), "Followed", Toast.LENGTH_SHORT).show();
+//                }else {
+//                    collectionReference.document(currentUserId).delete();
+//                    Toast.makeText(getContext(), "Unfollowed", Toast.LENGTH_SHORT).show();
+//                }
+//
+//            }
+//        });
+//    }
 
 }
