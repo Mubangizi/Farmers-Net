@@ -74,8 +74,8 @@ public class AccountFragment extends Fragment {
         }catch (NullPointerException e){
             user_id = currentUserId;
         }
-        UserFollowing.setupUser(getActivity(), collectionReference.document(currentUserId).collection("following"), user_id);
-        UserFollowing.checkIfFollowing(followBtn);
+        UserFollowing.setupUser(getActivity(), collectionReference.document(currentUserId).collection("following"));
+        UserFollowing.checkIfFollowing(followBtn, user_id);
 //        checkIfFollowing(user_id, followBtn);
 
         collectionReference.document(user_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

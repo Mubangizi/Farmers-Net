@@ -37,6 +37,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.farmersnet.utils.UserFollowing.checkIfFollowing;
+import static com.example.farmersnet.utils.UserFollowing.followUser;
+import static com.example.farmersnet.utils.UserFollowing.setupUser;
 import static java.security.AccessController.getContext;
 
 public class SearchActivity extends AppCompatActivity {
@@ -55,6 +58,7 @@ public class SearchActivity extends AppCompatActivity {
         collectionReference = FirebaseUtil.collectionReference;
         currentUserId = FirebaseUtil.mAuth.getCurrentUser().getUid();
         usersRecView = findViewById(R.id.user_search_RecView);
+        setupUser(SearchActivity.this, collectionReference.document(currentUserId).collection("following"));
     }
 
     @Override
@@ -114,25 +118,12 @@ public class SearchActivity extends AppCompatActivity {
                     }
                 });
 
+                checkIfFollowing(holder.followbtn, userId);
+
                 holder.followbtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        collectionReference.document(currentUserId).get().addOnCompleteListener((Activity) SearchActivity.this, new OnCompleteListener<DocumentSnapshot>() {
-
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if(!task.getResult().exists()){
-                                    Map<String, Object> followMap = new HashMap<>();
-                                    followMap.put("timestamp", FieldValue.serverTimestamp());
-                                    collectionReference.document(currentUserId).set(followMap);
-                                    holder.followbtn.setVisibility(View.GONE);
-                                    Toast.makeText(SearchActivity.this, "Followed", Toast.LENGTH_SHORT).show();
-                                }else {
-                                    collectionReference.document(currentUserId).delete();
-                                    Toast.makeText(SearchActivity.this, "Unfollowed", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
+                        followUser(holder.followbtn);
                     }
                 });
 

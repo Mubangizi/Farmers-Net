@@ -32,15 +32,15 @@ public class UserFollowing {
     private UserFollowing(){}
 
 
-    public static void setupUser(Activity calledActivity, CollectionReference collectionRef, String userIds){
+    public static void setupUser(Activity calledActivity, CollectionReference collectionRef){
         FirebaseUtil.openFireBaseReference("Users", calledActivity);
         collectionReference = collectionRef;
         currentUserId = FirebaseUtil.mAuth.getCurrentUser().getUid();
         callActivity=calledActivity;
-        userId = userIds;
     }
 
-    public static void checkIfFollowing(final Button followBtn){
+    public static void checkIfFollowing(final Button followBtn, String userIds){
+        userId = userIds;
         if(currentUserId ==userId){
             followBtn.setVisibility(View.GONE);
         }else {
