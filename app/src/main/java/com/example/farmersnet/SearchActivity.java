@@ -118,6 +118,12 @@ public class SearchActivity extends AppCompatActivity {
                         sendToAccount(userId);
                     }
                 });
+                holder.userNameTextView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        sendToAccount(userId);
+                    }
+                });
 
                 setupUser(SearchActivity.this, collectionReference.document(currentUserId).collection("following"), holder.followbtn, holder.followingTextView);
 
@@ -130,6 +136,7 @@ public class SearchActivity extends AppCompatActivity {
                         followUser();
                     }
                 });
+
 
                 holder.followingTextView.setOnClickListener(new View.OnClickListener() {
                     @Override
