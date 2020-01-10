@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.farmersnet.users.User;
 import com.example.farmersnet.utils.FirebaseUtil;
+import com.example.farmersnet.utils.UserFollowing;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -58,7 +59,6 @@ public class SearchActivity extends AppCompatActivity {
         collectionReference = FirebaseUtil.collectionReference;
         currentUserId = FirebaseUtil.mAuth.getCurrentUser().getUid();
         usersRecView = findViewById(R.id.user_search_RecView);
-        setupUser(SearchActivity.this, collectionReference.document(currentUserId).collection("following"));
     }
 
     @Override
@@ -71,6 +71,7 @@ public class SearchActivity extends AppCompatActivity {
         private TextView userNameTextView;
         private ImageView userImageView;
         private TextView emailTextView;
+        private TextView followingTextView;
         private Button followbtn;
 
         public UserViewHolder(@NonNull View itemView) {
@@ -79,6 +80,7 @@ public class SearchActivity extends AppCompatActivity {
             userNameTextView = itemView.findViewById(R.id.search_username_textView);
             emailTextView = itemView.findViewById(R.id.search_email);
             followbtn = itemView.findViewById(R.id.list_follow_btn);
+            followingTextView = itemView.findViewById(R.id.list_following_textView);
 
         }
 
@@ -109,7 +111,6 @@ public class SearchActivity extends AppCompatActivity {
             protected void onBindViewHolder(@NonNull final UserViewHolder holder, final int position, @NonNull User model) {
 
                 final String userId = getSnapshots().getSnapshot(position).getId();
-
                 holder.bind(model);
                 holder.userImageView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -118,12 +119,22 @@ public class SearchActivity extends AppCompatActivity {
                     }
                 });
 
+                setupUser(SearchActivity.this, collectionReference.document(currentUserId).collection("following"), holder.followbtn, holder.followingTextView);
+
+
                 checkIfFollowing(holder.followbtn, userId);
 
                 holder.followbtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        followUser(holder.followbtn);
+                        followUser();
+                    }
+                });
+
+                holder.followingTextView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        UserFollowing.unfollowUser();
                     }
                 });
 

@@ -74,7 +74,7 @@ public class AccountFragment extends Fragment {
         }catch (NullPointerException e){
             user_id = currentUserId;
         }
-        UserFollowing.setupUser(getActivity(), collectionReference.document(currentUserId).collection("following"));
+        UserFollowing.setupUser(getActivity(), collectionReference.document(currentUserId).collection("following"), followBtn, followingTextView);
         UserFollowing.checkIfFollowing(followBtn, user_id);
 //        checkIfFollowing(user_id, followBtn);
 
@@ -113,8 +113,14 @@ public class AccountFragment extends Fragment {
         followBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UserFollowing.followUser(followBtn);
-//                followUser();
+                UserFollowing.followUser();
+            }
+        });
+
+        followingTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UserFollowing.unfollowUser();
             }
         });
 

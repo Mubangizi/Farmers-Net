@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Build;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,16 +28,20 @@ public class UserFollowing {
     public static String currentUserId;
     public static Activity callActivity;
     public static String userId;
+    public static Button followBtn;
+    public static TextView followingTextview;
 
     //to prevent instantiation
     private UserFollowing(){}
 
 
-    public static void setupUser(Activity calledActivity, CollectionReference collectionRef){
+    public static void setupUser(Activity calledActivity, CollectionReference collectionRef, Button mfollowBtn, TextView mfollowingTextview){
         FirebaseUtil.openFireBaseReference("Users", calledActivity);
         collectionReference = collectionRef;
         currentUserId = FirebaseUtil.mAuth.getCurrentUser().getUid();
         callActivity=calledActivity;
+        followBtn = mfollowBtn;
+        followingTextview = mfollowingTextview;
     }
 
     public static void checkIfFollowing(final Button followBtn, String userIds){
@@ -60,7 +65,7 @@ public class UserFollowing {
         }
     }
 
-    public static void followUser(final Button followBtn){
+    public static void followUser(){
         collectionReference.document(currentUserId).get().addOnCompleteListener((Activity) callActivity, new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -69,10 +74,27 @@ public class UserFollowing {
                     followMap.put("timestamp", FieldValue.serverTimestamp());
                     collectionReference.document(userId).set(followMap);
                     followBtn.setVisibility(View.GONE);
+                    followingTextview.setVisibility(View.VISIBLE);
                     Toast.makeText(callActivity, "Followed", Toast.LENGTH_SHORT).show();
                 }else {
+                    Toast.makeText(callActivity, "Following user", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+    }
+
+    public static void unfollowUser(){
+        collectionReference.document(currentUserId).get().addOnCompleteListener((Activity) callActivity, new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(!task.getResult().exists()){
                     collectionReference.document(userId).delete();
                     Toast.makeText(callActivity, "Unfollowed", Toast.LENGTH_SHORT).show();
+                    followingTextview.setVisibility(View.GONE);
+                    followBtn.setVisibility(View.VISIBLE);
+                }else {
+                    Toast.makeText(callActivity, "Error occured", Toast.LENGTH_SHORT).show();
                 }
 
             }
