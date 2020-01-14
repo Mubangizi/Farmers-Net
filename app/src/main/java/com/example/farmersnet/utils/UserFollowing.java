@@ -91,7 +91,7 @@ public class UserFollowing {
                 if(!task.getResult().exists()){
                     collectionReference.document(userId).delete();
                     Toast.makeText(callActivity, "Unfollowed", Toast.LENGTH_SHORT).show();
-                    followingTextview.setVisibility(View.GONE);
+                    followingTextview.setVisibility(View.INVISIBLE);
                     followBtn.setVisibility(View.VISIBLE);
                 }else {
                     Toast.makeText(callActivity, "Error occured", Toast.LENGTH_SHORT).show();
