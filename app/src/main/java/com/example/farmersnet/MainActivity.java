@@ -54,18 +54,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     protected void onStart() {
         super.onStart();
-//        makeUserOnline();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-//        GetUserNameUtil.makeUserOffline(MainActivity.this);
-    }
-
-    private void makeUserOnline() {
-        GetUserNameUtil.defineUser();
-        GetUserNameUtil.createOnlinestatus(MainActivity.this);
     }
 
 

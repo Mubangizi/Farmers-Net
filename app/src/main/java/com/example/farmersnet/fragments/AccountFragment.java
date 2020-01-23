@@ -92,7 +92,7 @@ public class AccountFragment extends Fragment {
         currentUserId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
 
         try {
-            user_id = getActivity().getIntent().getExtras().getString("userId");
+            user_id = Objects.requireNonNull(Objects.requireNonNull(getActivity()).getIntent().getExtras()).getString("userId");
             boldFollowingTextView.setVisibility(View.GONE);
             usersRecyclerView.setVisibility(View.GONE);
 
@@ -158,11 +158,18 @@ public class AccountFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        FirebaseUtil.openFireBaseReference("Users", getActivity());
+        collectionReference = FirebaseUtil.collectionReference;
+        mAuth = FirebaseUtil.mAuth;
+        currentUserId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         try {
             Objects.requireNonNull(getActivity()).getIntent().removeExtra("userId");
+            user_id = currentUserId;
         }catch (NullPointerException e){
             user_id = currentUserId;
         }
+        setupUser(getActivity(), collectionReference.document(currentUserId).collection("following"), followBtn, followingTextView);
+        checkIfFollowing(followBtn, user_id);
     }
 
     //For Recycler View
@@ -209,7 +216,7 @@ public class AccountFragment extends Fragment {
                 final String userId = getSnapshots().getSnapshot(position).getId();
                 GetUserNameUtil.setusername(userId, context, holder.userNameTextView, holder.userImageView);
 
-//                holder.bind(model);
+                holder.bind(model);
                 holder.userImageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

@@ -11,9 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Build;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -81,6 +83,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
         postViewHolder.bind(post);
         final CollectionReference likesCollectionReference = firebaseFirestore.collection("Posts/" + postId + "/Likes");
         final CollectionReference commentCollectionReference = firebaseFirestore.collection("Posts/" + postId + "/comments");
+        final CollectionReference postCollectionReference = firebaseFirestore.collection("Posts");
 
         postViewHolder.postImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +102,45 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
             @Override
             public void onClick(View view) {
                 sendToPost(postId);
+            }
+        });
+
+        postViewHolder.optionsButtonTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //creating a popup menu
+                PopupMenu popup = new PopupMenu(context, postViewHolder.optionsButtonTextView);
+                //inflating menu from xml resource
+                popup.inflate(R.menu.post_item_menu);
+                //adding click listener
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.delete_post:
+                                postCollectionReference.document(postId).get().addOnCompleteListener((Activity) context, new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if(task.getResult().exists()){
+                                            postCollectionReference.document(currentUserId).delete();
+                                            Toast.makeText(context, "Deleted Post", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+
+
+                                break;
+                            case R.id.report:
+                                //handle menu2 click
+                                break;
+
+                        }
+                        return false;
+                    }
+                });
+                //displaying the popup
+                popup.show();
             }
         });
 
@@ -158,6 +200,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
         private ImageView postLikeBtn;
         private TextView postlikeTextView;
         private TextView postCommentTextView;
+        private TextView optionsButtonTextView;
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.post_rec_title_textView);
@@ -169,6 +212,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
             postLikeBtn = itemView.findViewById(R.id.post_rec_like_icon);
             postlikeTextView = itemView.findViewById(R.id.post_rec_like_textView);
             postCommentTextView = itemView.findViewById(R.id.post_rec_comment_textView);
+            optionsButtonTextView = itemView.findViewById(R.id.menu_options_textView);
 
         }
 
