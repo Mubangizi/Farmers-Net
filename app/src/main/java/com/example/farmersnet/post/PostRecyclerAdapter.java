@@ -26,6 +26,8 @@ import com.example.farmersnet.R;
 import com.example.farmersnet.utils.GetUserNameUtil;
 import com.example.farmersnet.utils.MyTimeUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -35,6 +37,8 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -123,8 +127,32 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
                                     @Override
                                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                         if(task.getResult().exists()){
-                                            postCollectionReference.document(currentUserId).delete();
-                                            Toast.makeText(context, "Deleted Post", Toast.LENGTH_SHORT).show();
+                                            //check for image Uri
+                                            if(post.getImage() != null){
+                                                StorageReference imageRef = FirebaseStorage.getInstance().getReference()
+                                                        .getStorage().getReferenceFromUrl(post.getImage());
+                                                imageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        // File deleted successfully
+                                                        postCollectionReference.document(postId).delete();
+                                                        Toast.makeText(context, "Deleted Post", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }).addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception exception) {
+                                                        // Uh-oh, an error occurred!
+                                                        Toast.makeText(context, "Error Occured", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+
+                                            }else {
+                                                postCollectionReference.document(postId).delete();
+                                                Toast.makeText(context, "Deleted Post", Toast.LENGTH_SHORT).show();
+                                            }
+
+                                        }else {
+                                            Toast.makeText(context, "Error Occured", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 });
