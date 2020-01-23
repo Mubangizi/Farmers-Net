@@ -11,9 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Build;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,8 @@ import com.example.farmersnet.R;
 import com.example.farmersnet.utils.GetUserNameUtil;
 import com.example.farmersnet.utils.MyTimeUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -33,6 +37,8 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -81,6 +87,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
         postViewHolder.bind(post);
         final CollectionReference likesCollectionReference = firebaseFirestore.collection("Posts/" + postId + "/Likes");
         final CollectionReference commentCollectionReference = firebaseFirestore.collection("Posts/" + postId + "/comments");
+        final CollectionReference postCollectionReference = firebaseFirestore.collection("Posts");
 
         postViewHolder.postImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +106,69 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
             @Override
             public void onClick(View view) {
                 sendToPost(postId);
+            }
+        });
+
+        postViewHolder.optionsButtonTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //creating a popup menu
+                PopupMenu popup = new PopupMenu(context, postViewHolder.optionsButtonTextView);
+                //inflating menu from xml resource
+                popup.inflate(R.menu.post_item_menu);
+                //adding click listener
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.delete_post:
+                                postCollectionReference.document(postId).get().addOnCompleteListener((Activity) context, new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if(task.getResult().exists()){
+                                            //check for image Uri
+                                            if(post.getImage() != null){
+                                                StorageReference imageRef = FirebaseStorage.getInstance().getReference()
+                                                        .getStorage().getReferenceFromUrl(post.getImage());
+                                                imageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        // File deleted successfully
+                                                        postCollectionReference.document(postId).delete();
+                                                        Toast.makeText(context, "Deleted Post", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }).addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception exception) {
+                                                        // Uh-oh, an error occurred!
+                                                        Toast.makeText(context, "Error Occured", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+
+                                            }else {
+                                                postCollectionReference.document(postId).delete();
+                                                Toast.makeText(context, "Deleted Post", Toast.LENGTH_SHORT).show();
+                                            }
+
+                                        }else {
+                                            Toast.makeText(context, "Error Occured", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+
+
+                                break;
+                            case R.id.report:
+                                //handle menu2 click
+                                break;
+
+                        }
+                        return false;
+                    }
+                });
+                //displaying the popup
+                popup.show();
             }
         });
 
@@ -158,6 +228,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
         private ImageView postLikeBtn;
         private TextView postlikeTextView;
         private TextView postCommentTextView;
+        private TextView optionsButtonTextView;
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.post_rec_title_textView);
@@ -169,6 +240,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
             postLikeBtn = itemView.findViewById(R.id.post_rec_like_icon);
             postlikeTextView = itemView.findViewById(R.id.post_rec_like_textView);
             postCommentTextView = itemView.findViewById(R.id.post_rec_comment_textView);
+            optionsButtonTextView = itemView.findViewById(R.id.menu_options_textView);
 
         }
 

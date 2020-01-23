@@ -91,4 +91,6 @@ public class ChatRoomFragment extends Fragment {
         Intent createChatIntent = new Intent(getActivity(), CreateChatRoomActivity.class);
         startActivity(createChatIntent);
     }
+
+
 }

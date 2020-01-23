@@ -3,6 +3,7 @@ package com.example.farmersnet;
 import android.content.Intent;
 import androidx.annotation.NonNull;
 
+import com.example.farmersnet.utils.GetUserNameUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,8 @@ import com.example.farmersnet.utils.FirebaseUtil;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -46,6 +49,16 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             loadFragment(new HomeFragment());
         }
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
 

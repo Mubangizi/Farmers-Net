@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="#EEEEEE"
 
+
     tools:context=".messages.ChatActivity">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -17,7 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/item_message_layout" />
+        tools:listitem="@layout/item_send_message_layout" />
 
     <RelativeLayout
         android:id="@+id/message_relative_Laayout"
@@ -27,23 +28,30 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
+        <ImageView
+            android:id="@+id/message_imageView"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/farm_logo" />
+
 
         <ImageView
             android:id="@+id/message_attachment_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:elevation="2dp"
-            android:layout_centerVertical="true"
+            android:layout_below="@+id/message_imageView"
             android:layout_alignParentStart="true"
+            android:elevation="2dp"
             app:srcCompat="@mipmap/ic_attach_launcher" />
 
         <EditText
             android:id="@+id/message_text_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:background="@drawable/oval_background"
+            android:layout_below="@+id/message_imageView"
             android:layout_toEndOf="@+id/message_attachment_icon"
+            android:background="@drawable/oval_background"
             android:elevation="2dp"
             android:ems="10"
             android:hint="Message"
@@ -54,9 +62,9 @@
             android:id="@+id/message_smile_icon_imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:elevation="2dp"
+            android:layout_below="@+id/message_imageView"
             android:layout_toStartOf="@+id/message_send_icon"
-            android:layout_centerVertical="true"
+            android:elevation="2dp"
             app:srcCompat="@mipmap/ic_smile_face_launcher" />
 
 
@@ -64,9 +72,9 @@
             android:id="@+id/message_send_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:elevation="2dp"
+            android:layout_below="@+id/message_imageView"
             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
+            android:elevation="2dp"
             app:srcCompat="@mipmap/ic_send_launcher" />
 
 

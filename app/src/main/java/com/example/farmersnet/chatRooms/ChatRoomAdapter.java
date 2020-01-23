@@ -47,6 +47,12 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
                 sendToMessage(postId);
             }
         });
+        chatRoomViewHolder.descTextVew.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendToMessage(postId);
+            }
+        });
         chatRoomViewHolder.roomImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

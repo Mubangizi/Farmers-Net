@@ -9,17 +9,18 @@ import android.os.Build;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.AppCompatActivity;
+
+import android.view.View;
 import android.widget.ImageView;
 
 import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
 
 import static android.app.Activity.RESULT_OK;
 
 public class UploadImageUtil {
 
     private static Activity activity;
+    private final int GALLERY_PICK = 1;
 
 
     private static Uri imageUri;
@@ -33,28 +34,33 @@ public class UploadImageUtil {
                 //ask for permission
              ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
             }else {
-                startCropActivity();
+                startImageActivity();
             }
         }else {
-            startCropActivity();
+            startImageActivity();
         }
     }
 
-    private static void startCropActivity() {
-        CropImage.activity()
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .start(activity);
+    private void startImageActivity() {
+//        CropImage.activity()
+//                .setGuidelines(CropImageView.Guidelines.ON)
+//                .start(activity);
+        Intent galleryIntent = new Intent();
+        galleryIntent.setType("image/*");
+        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+        activity.startActivityForResult(Intent.createChooser(galleryIntent,  "SELECT IMAGE"), GALLERY_PICK);
     }
 
     public void setresult(int requestCode, int resultCode, @Nullable Intent data, ImageView imageView){
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            if (resultCode == RESULT_OK) {
-                this.imageUri = result.getUri();
-                setProfileImageUri(imageUri);
+//        result = data;
+        if (requestCode == GALLERY_PICK && resultCode == RESULT_OK) {
+//            this.imageUri = result.getUri();
+            assert data != null;
+            this.imageUri =data.getData();
+            setProfileImageUri(imageUri);
+            if(imageView != null){
                 imageView.setImageURI(imageUri);
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Exception error = result.getError();
+                imageView.setVisibility(View.VISIBLE);
             }
         }
     }
