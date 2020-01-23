@@ -2,6 +2,8 @@ package com.example.farmersnet.messages;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,18 +42,21 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
     public ChatRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
         View view = LayoutInflater.from(context).inflate(R.layout.item_send_message_layout, parent,false);
+
         return new ChatRecyclerViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ChatRecyclerViewHolder holder, int position) {
         final Message message = messageArrayLists.get(position);
+        getItemViewType(position);
         holder.bind(message);
 
         if(message.getUser_id().equals(currentUserId)){
-            holder.root_view.setBackgroundColor(Color.WHITE);
+            holder.root_message.setBackgroundResource(R.drawable.rect_round_white);
             holder.userImageView.setVisibility(View.GONE);
-            holder.root_view.setHorizontalGravity(50);
+            holder.messageSenderNameTextView.setVisibility(View.GONE);
+            holder.root_view.setGravity(Gravity.END);
         }
 
 
@@ -62,6 +67,7 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
         return messageArrayLists.size();
     }
 
+
     public class ChatRecyclerViewHolder extends RecyclerView.ViewHolder{
 
         TextView messageTextView;
@@ -69,6 +75,7 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
         TextView messengeTimeTextView;
         TextView messageSenderNameTextView;
         RelativeLayout root_view;
+        RelativeLayout root_message;
         ImageView userImageView;
 
         public ChatRecyclerViewHolder(@NonNull View itemView) {
@@ -79,7 +86,8 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
             messageImageView = itemView.findViewById(R.id.messageImageView);
             messengeTimeTextView = itemView.findViewById(R.id.textView_message_time);
             userImageView = itemView.findViewById(R.id.message_user_image);
-            root_view = itemView.findViewById(R.id.message_root);
+            root_message = itemView.findViewById(R.id.message_root);
+            root_view = itemView.findViewById(R.id.root_Relative_Layout);
         }
 
         public void bind(Message message){
