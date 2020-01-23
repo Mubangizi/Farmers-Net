@@ -1,33 +1,37 @@
 package com.example.farmersnet.messages;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.farmersnet.R;
-import com.example.farmersnet.chatRooms.ChatRoom;
 import com.example.farmersnet.utils.GetUserNameUtil;
 import com.example.farmersnet.utils.MyTimeUtil;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.Date;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapter.ChatRecyclerViewHolder> {
 
     public static ArrayList<Message> messageArrayLists;
     Context context;
+    FirebaseAuth mAuth;
+    String currentUserId;
+
 
     public ChatRecyclerAdapter(ArrayList<Message> messageArrayLists){
         this.messageArrayLists= messageArrayLists;
-
+        mAuth = FirebaseAuth.getInstance();
+        currentUserId = mAuth.getCurrentUser().getUid();
     }
 
 
@@ -35,7 +39,7 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
     @Override
     public ChatRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-        View view = LayoutInflater.from(context).inflate(R.layout.item_message_layout, parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_send_message_layout, parent,false);
         return new ChatRecyclerViewHolder(view);
     }
 
@@ -43,6 +47,14 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
     public void onBindViewHolder(@NonNull ChatRecyclerViewHolder holder, int position) {
         final Message message = messageArrayLists.get(position);
         holder.bind(message);
+
+        if(message.getUser_id().equals(currentUserId)){
+            holder.root_view.setBackgroundColor(Color.WHITE);
+            holder.userImageView.setVisibility(View.GONE);
+            holder.root_view.setHorizontalGravity(50);
+        }
+
+
     }
 
     @Override
@@ -56,19 +68,23 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
         ImageView messageImageView;
         TextView messengeTimeTextView;
         TextView messageSenderNameTextView;
+        RelativeLayout root_view;
+        ImageView userImageView;
 
         public ChatRecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            messageTextView = (TextView) itemView.findViewById(R.id.textView_message_text);
-            messageSenderNameTextView = (TextView) itemView.findViewById(R.id.message_sender_name_text);
-            messageImageView = (ImageView) itemView.findViewById(R.id.messageImageView);
-            messengeTimeTextView = (TextView) itemView.findViewById(R.id.textView_message_time);
+            messageTextView = itemView.findViewById(R.id.textView_message_text);
+            messageSenderNameTextView = itemView.findViewById(R.id.message_sender_name_text);
+            messageImageView = itemView.findViewById(R.id.messageImageView);
+            messengeTimeTextView = itemView.findViewById(R.id.textView_message_time);
+            userImageView = itemView.findViewById(R.id.message_user_image);
+            root_view = itemView.findViewById(R.id.message_root);
         }
 
         public void bind(Message message){
             messageTextView.setText(message.getText());
-            GetUserNameUtil.setusername(message.getUser_id(), context, messageSenderNameTextView, null);
+            GetUserNameUtil.setusername(message.getUser_id(), context, messageSenderNameTextView, userImageView);
 
             //Message Time
             Date timestamp = message.getTimestamp();

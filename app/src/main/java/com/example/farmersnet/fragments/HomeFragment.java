@@ -63,7 +63,7 @@ public class HomeFragment extends Fragment {
         collectionReference.orderBy("timestamp", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                if (!queryDocumentSnapshots.isEmpty()) {
+                    if (!queryDocumentSnapshots.isEmpty()) {
                     for (@NonNull DocumentChange doc : queryDocumentSnapshots.getDocumentChanges()) {
 
                         switch (doc.getType()) {
