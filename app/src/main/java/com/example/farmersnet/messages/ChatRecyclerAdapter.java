@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.farmersnet.R;
 import com.example.farmersnet.utils.GetUserNameUtil;
 import com.example.farmersnet.utils.MyTimeUtil;
@@ -93,6 +94,10 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
         public void bind(Message message){
             messageTextView.setText(message.getText());
             GetUserNameUtil.setusername(message.getUser_id(), context, messageSenderNameTextView, userImageView);
+            if(message.getImage() != null) {
+                Glide.with(context).load(message.getImage()).into(messageImageView);
+                messageImageView.setVisibility(View.VISIBLE);
+            }
 
             //Message Time
             Date timestamp = message.getTimestamp();

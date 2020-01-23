@@ -49,8 +49,9 @@
         <ImageView
             android:id="@+id/messageImageView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="150dp"
             android:adjustViewBounds="true"
+            android:visibility="gone"
             android:layout_below="@id/message_sender_name_text"
             android:background="@color/colorPrimary"
             android:scaleType="fitCenter"/>

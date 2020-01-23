@@ -95,7 +95,7 @@ public class RegisterActivity extends AppCompatActivity {
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startImageActivity();
+                uploadImageUtil.checkPermission();
             }
         });
 
@@ -165,9 +165,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    private void startImageActivity() {
-        uploadImageUtil.checkPermission();
-    }
 
     private void saveUserinfo(String fname, String lname, String email, String dob, String about, String interest, String downloadUri) {
         final Map<String, Object> usermap = new HashMap<>();
