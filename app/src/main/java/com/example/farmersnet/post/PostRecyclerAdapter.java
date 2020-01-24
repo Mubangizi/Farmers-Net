@@ -109,13 +109,22 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
             }
         });
 
+        //creating a popup menu
+        final PopupMenu popup = new PopupMenu(context, postViewHolder.optionsButtonTextView);
+        //inflating menu from xml resource
+        popup.inflate(R.menu.post_item_menu);
+
+        //hiding delete
+        if(post.getUser_id().equals(currentUserId)){
+            popup.getMenu().findItem(R.id.delete_post).setVisible(true);
+        }else {
+            popup.getMenu().findItem(R.id.delete_post).setVisible(false);
+        }
+
         postViewHolder.optionsButtonTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //creating a popup menu
-                PopupMenu popup = new PopupMenu(context, postViewHolder.optionsButtonTextView);
-                //inflating menu from xml resource
-                popup.inflate(R.menu.post_item_menu);
+                popup.show();
                 //adding click listener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 
@@ -156,7 +165,6 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
                                         }
                                     }
                                 });
-
 
                                 break;
                             case R.id.report:

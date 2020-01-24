@@ -3,6 +3,7 @@ package com.example.farmersnet.chatRooms;
 import android.content.Context;
 import android.content.Intent;
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,7 +48,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
                 sendToMessage(postId);
             }
         });
-        chatRoomViewHolder.descTextVew.setOnClickListener(new View.OnClickListener() {
+        chatRoomViewHolder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendToMessage(postId);
@@ -84,11 +85,13 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
         public  TextView nameTextView;
         private TextView descTextVew;
         private ImageView roomImage;
+        private ConstraintLayout constraintLayout;
         public ChatRoomViewHolder(@NonNull View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.chartroom_title_textView);
             descTextVew = itemView.findViewById(R.id.Chartroom_description_textViews);
             roomImage = itemView.findViewById(R.id.chartroom_imageView);
+            constraintLayout = itemView.findViewById(R.id.chartroom_rootView);
         }
 
         public void bind(ChatRoom chatRoom){
